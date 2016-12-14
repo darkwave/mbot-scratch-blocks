@@ -1,0 +1,28 @@
+{
+  "name": "Scratch Blocks for mBot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "electron-rebuild --force --pre-gyp-fix"
+  },
+  "repository": "https://github.com/darkwave/mbot-scratch-blocks",
+  "keywords": [
+    "mbot",
+    "makeblock",
+    "scratch",
+    "STEM"
+  ],
+  "author": "Massimo Avvisati (darkwave)",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "electron": "^1.4.1",
+    "electron-rebuild": "latest",
+    "electron-prebuilt": "latest"
+  },
+  "dependencies": {
+    "tween.js": "^16.3.5",
+    "node-hid": "latest"
+  }
+}

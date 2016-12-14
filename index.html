@@ -1,0 +1,90 @@
+<html>
+<head>
+
+  <script src="blockly_compressed_horizontal.js"></script>
+  <script src="javascript_compressed.js"></script>
+  <script src="blocks_compressed.js"></script>
+  <script src="msg/js/en.js"></script>
+
+
+  <script src="blocks_horizontal/control.js"></script>
+  <script src="blocks_horizontal/event.js"></script>
+  <script src="blocks_horizontal/wedo.js"></script>
+
+  <script src="blocks_horizontal/default_toolbox.js"></script>
+
+
+</head>
+
+<body>
+  <div id="blocklyDiv"></div>
+</body>
+
+<script src="hid_mbot.js"></script>
+
+<script src="blocks_mbot.js"></script>
+<script src="mbot_menu.js"></script>
+<script>
+var workspace = Blockly.inject('blocklyDiv', {
+  comments: false,
+  disable: false,
+  collapse: false,
+  media: 'media/',
+  readOnly: false,
+  scrollbars: true,
+  toolbox: Blockly.Blocks.defaultToolbox,
+  trashcan: true,
+  grid: {spacing: 16,
+    length: 1,
+    colour: '#2C344A',
+    snap: false
+  },
+  zoom: {
+    controls: true,
+    wheel: true,
+    startScale: 1.0,
+    maxScale: 4,
+    minScale: 0.25,
+    scaleSpeed: 1.1
+  },
+  colours: {
+    workspace: '#334771',
+    flyout: '#283856',
+    scrollbar: '#24324D',
+    scrollbarHover: '#0C111A',
+    insertionMarker: '#FFFFFF',
+    insertionMarkerOpacity: 0.3,
+    fieldShadow: 'rgba(255, 255, 255, 0.3)',
+    dragShadowOpacity: 0.6
+  }
+});
+
+
+var TWEEN = require('tween.js');
+
+
+requestAnimationFrame(animate);
+
+function animate(time) {
+    requestAnimationFrame(animate);
+    TWEEN.update(time);
+}
+
+
+
+
+  //following Orion Protocol http://learn.makeblock.com/makeblock-orion-protocol/
+  //var changeLED = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 100, 0];
+  /*
+  function setLed(r,g,b) {
+    var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b];
+
+      device.write(currentColor);
+
+  }
+
+*/
+
+device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 0, 0]);
+</script>
+</html>
