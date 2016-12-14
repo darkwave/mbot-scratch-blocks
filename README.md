@@ -1,4 +1,4 @@
-# electron-mbot-scratch
+# mbot-scratch-blocks
 
 **mBot Scratch Blocks Alpha**
 
