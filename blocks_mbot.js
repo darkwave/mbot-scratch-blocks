@@ -1,6 +1,6 @@
 Blockly.JavaScript['event_whenflagclicked'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...;\n';
+  var code = '\n';
   return code;
 };
 
@@ -75,8 +75,15 @@ Blockly.JavaScript['wedo_setcolor'] = function(block) {
 }
 var tweenCounter = 0;
 function runCode() {
-  var code = Blockly.JavaScript.workspaceToCode(workspace);
+var code = "";
+  for (i = 0; i < workspace.getTopBlocks().length; i++)
+  if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
+    code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
+
+  // We don't need all the workspace but only events connected blocks
+  //var code = Blockly.JavaScript.workspaceToCode(workspace);
   tweenCounter = 0;
+  //TODO workspace.glowBlock
   preCode = "var firstTween = new TWEEN.Tween(); var lastTween = firstTween;";
   postCode = "firstTween.start();"
   eval(preCode + code + postCode);
