@@ -8,8 +8,9 @@ for (i=0; i < devices.length; i++) {
   document.write(devices[i].product + devices[i].path);
   currentPath = devices[i].path;
 }
-
-var device = new HID.HID(currentPath);//"1046", "65535");
+var device;
+try {
+device = new HID.HID(currentPath);//"1046", "65535");
 //console.log(device);
 var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
 device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
@@ -27,6 +28,9 @@ device.on("error", function(error) {
   console.log("error:" + error);
 
 });
+} catch (error) {
+  alert("Please attach mBot dongle and reload\n" + error);
+}
 
 function setLed(r,g,b) {
   device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b]);
