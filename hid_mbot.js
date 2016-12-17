@@ -46,12 +46,13 @@ function setMotors(left, right) {
   left_low = left & 0xff;
   left_high = (left >> 8) & 0xff;
 
-  right_low = right & 0xff;
-  right_high = (right >> 8) & 0xff;
-  device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
-  device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
+  right_high = right & 0xff;
+  right_low = (right >> 8) & 0xff;
+
+  device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
+  device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
   //ff 55 06 60 02 0a 09 ff 00 left motor
   //ff 55 06 60 02 0a 0a ff 00 right motor
-  console.log([0, 8, 0xff, 0x55, 0x06, 0x02, 0x0a, 0x09, left_low, left_high]);
+  console.log(left + ',' + right);
 
 }

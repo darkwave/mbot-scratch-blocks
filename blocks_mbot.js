@@ -25,7 +25,7 @@ Blockly.JavaScript['wedo_motorclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(1, -1, duration);
+  var code = getMotorsTween(1, -1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -36,9 +36,19 @@ Blockly.JavaScript['wedo_motorcounterclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(-1, 1, duration);
+  var code = getMotorsTween(-1, 1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
+
+Blockly.JavaScript['wedo_motorspeed'] = function(block) {
+  //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
+//var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
+//  console.log(block.inputList);
+  var newSpeed = block.getChildren()[0].getFieldValue('CHOICE');
+  var code = getMotorsSpeed(newSpeed);
+  return code;
+};
+
 
 Blockly.JavaScript['dropdown_wedo_setcolor'] = function(block) {
 
@@ -108,20 +118,40 @@ function getWaitTween(duration) {
 
 }
 
-var motorSpeed = -255;
+var motorSpeed = 255;
+
+function getMotorsSpeed(newSpeed) {
+  tweenCounter++;
+
+  if (newSpeed === 'fast')
+    newSpeed = 255;
+    else if (newSpeed === 'medium')
+    newSpeed = 150;
+    else if (newSpeed === 'slow')
+    newSpeed = 50;
+
+  return `
+    var tween${tweenCounter} = new TWEEN.Tween().to(0, 100)
+      .onUpdate(function() {
+        motorSpeed = ${newSpeed};
+      })
+      ;
+
+      lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
+  `;
+}
+
 function getMotorsTween(l, r, duration) {
   tweenCounter++;
-  l *= motorSpeed;
-  r *= motorSpeed;
+  //l *= motorSpeed;
+  //r *= motorSpeed;
   return `
     var tween${tweenCounter} = new TWEEN.Tween({l: ${l}, r: ${r}})
       .to({l: ${l}, r: ${r}}, ${duration * 1000})
       .onUpdate(function() {
-        setMotors(this.l, this.r);
+        setMotors(this.l * motorSpeed, this.r * motorSpeed);
       })
-      .onComplete(function() {
-        setMotors(0, 0);
-      });
+      ;
 
       lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
   `;
