@@ -1,6 +1,9 @@
+var currentlyGlowingStack = null;
+
 Blockly.JavaScript['event_whenflagclicked'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '\n';
+
+  var code = getGlowTween(block);
   return code;
 };
 
@@ -76,6 +79,7 @@ Blockly.JavaScript['wedo_setcolor'] = function(block) {
 var tweenCounter = 0;
 function runCode() {
 var code = "";
+currentlyGlowingStack = null;
   for (i = 0; i < workspace.getTopBlocks().length; i++)
   if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
     code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
@@ -84,8 +88,12 @@ var code = "";
   //var code = Blockly.JavaScript.workspaceToCode(workspace);
   tweenCounter = 0;
   //TODO workspace.glowBlock
+
   preCode = "var firstTween = new TWEEN.Tween(); var lastTween = firstTween;";
-  postCode = "firstTween.start();"
+  postCode = `firstTween.start(); lastTween.onComplete(function() {
+    if (currentlyGlowingStack != null)
+      workspace.glowStack(currentlyGlowingStack, false);
+  });`
   eval(preCode + code + postCode);
 
 }
@@ -130,4 +138,19 @@ function getColorTween(r, g, b) {
 
       lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
   `;
+}
+
+function getGlowTween(block) {
+  tweenCounter++;
+  return `
+  var tween${tweenCounter} = new TWEEN.Tween()
+  .onStart(function() {
+    if (currentlyGlowingStack != null)
+      workspace.glowStack(currentlyGlowingStack, false);
+
+    currentlyGlowingStack = "${block.id}";
+    workspace.glowStack("${block.id}", true);
+    });
+  lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
+`;
 }
