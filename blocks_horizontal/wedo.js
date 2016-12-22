@@ -98,6 +98,75 @@ Blockly.Blocks['wedo_setcolor'] = {
   }
 };
 
+Blockly.Blocks['wedo_motorforward'] = {
+  /**
+   * Block to go forward.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "wedo_motorforward",
+      "message0": "%1 %2",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_motor-forward.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn motor clockwise"
+        },
+        {
+          "type": "input_value",
+          "name": "DURATION",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.motion,
+      "colour": Blockly.Colours.motion.primary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary
+    });
+  }
+};
+
+Blockly.Blocks['wedo_motorbackward'] = {
+  /**
+   * Block to go forward.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "wedo_motorbackward",
+      "message0": "%1 %2",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_motor-backward.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn motor clockwise"
+        },
+        {
+          "type": "input_value",
+          "name": "DURATION",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.motion,
+      "colour": Blockly.Colours.motion.primary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary
+    });
+  }
+};
+
+
 Blockly.Blocks['wedo_motorclockwise'] = {
   /**
    * Block to spin motor clockwise.

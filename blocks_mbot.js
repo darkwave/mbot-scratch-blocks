@@ -25,7 +25,29 @@ Blockly.JavaScript['wedo_motorclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(1, -1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = getMotorsTween(-1, 1, duration) + getMotorsTween(0, 0, 0.1);
+  return code;
+};
+
+Blockly.JavaScript['wedo_motorforward'] = function(block) {
+  //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
+//var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
+//  console.log(block.inputList);
+  var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
+  //console.log(block);
+  //console.log(duration);
+  var code = getMotorsTween(-1, -1, duration) + getMotorsTween(0, 0, 0.1);
+  return code;
+};
+
+Blockly.JavaScript['wedo_motorbackward'] = function(block) {
+  //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
+//var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
+//  console.log(block.inputList);
+  var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
+  //console.log(block);
+  //console.log(duration);
+  var code = getMotorsTween(1, 1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -36,7 +58,7 @@ Blockly.JavaScript['wedo_motorcounterclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(-1, 1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = getMotorsTween(1, -1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -128,7 +150,7 @@ function getMotorsSpeed(newSpeed) {
     else if (newSpeed === 'medium')
     newSpeed = 150;
     else if (newSpeed === 'slow')
-    newSpeed = 50;
+    newSpeed = 100;
 
   return `
     var tween${tweenCounter} = new TWEEN.Tween().to(0, 100)
