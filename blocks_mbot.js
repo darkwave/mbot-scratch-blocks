@@ -1,11 +1,23 @@
 var currentlyGlowingStack = null;
 
 Blockly.JavaScript['event_whenflagclicked'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-
   var code = getGlowTween(block);
   return code;
 };
+
+
+Blockly.JavaScript['control_repeat'] = function(block) {
+      var value = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
+      var substack = Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
+      var code = "";
+      for (i = 0; i < value; i++)
+        code += substack;
+      //; = 'for (i = 0; i < ' + value + '; i++)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
+      return code;
+
+};
+
+
 
 Blockly.JavaScript['control_wait'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
@@ -87,21 +99,42 @@ Blockly.JavaScript['wedo_setcolor'] = function(block) {
   console.log(value);
   if (value === 'yellow') {
     newR = 255;
+    newG = 255;
+    newB = 0;
+  } else if (value === 'orange') {
+    newR = 255;
     newG = 100;
     newB = 0;
-  } else if (value === 'mystery') {
-    newR = Math.floor(Math.random() * 255);
-    newG = Math.floor(Math.random() * 255);
-    newB = Math.floor(Math.random() * 255);
+  } else if (value === 'purple') {
+    newR = 128;
+    newG = 0;
+    newB = 128;
+  } else if (value === 'blue') {
+    newR = 0;
+    newG = 0;
+    newB = 255;
+  } else if (value === 'green') {
+    newR = 0;
+    newG = 255;
+    newB = 0;
+  } else if (value === 'white') {
+    newR = 255;
+    newG = 255;
+    newB = 255;
   } else if (value === 'coral') {
     newR = 255;
-    newG = 127;
-    newB = 80;
+    newG = 30;
+    newB = 100;
   } else if (value === 'magenta') {
     newR = 255;
     newG = 0;
     newB = 255;
+  } else if (value === 'mystery') {
+    newR = Math.floor(Math.random() * 255);
+    newG = Math.floor(Math.random() * 255);
+    newB = Math.floor(Math.random() * 255);
   }
+
   //tweenCounter++;
   //code = "var tween" + tweenCounter +" = new TWEEN.Tween({r: 0, g: 0, b: 0})
   //.to({ r: "+newR+", g: "+ newG + ", b: " + newB + " }, 1000).onUpdate(function() {  setLed(this.r,this.g,this.b);  }); lastTween.chain(tween" + tweenCounter +"); lastTween = tween" + tweenCounter +";";
@@ -127,6 +160,7 @@ currentlyGlowingStack = null;
       workspace.glowStack(currentlyGlowingStack, false);
   });`
   eval(preCode + code + postCode);
+  console.log(code);
 
 }
 
