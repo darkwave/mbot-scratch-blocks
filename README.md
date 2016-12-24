@@ -4,6 +4,9 @@
 
 Very first alpha version of a [Scratch Blocks](https://github.com/LLK/scratch-blocks) editor to program the [mBot](http://learn.makeblock.com/mbot/) STEM Robotic Kit.
 
+
+![mbot-scratch-blocks preview](https://github.com/darkwave/mbot-scratch-blocks/raw/master/screenshot.png)
+
 ## To Use
 
 You'll need [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer.
