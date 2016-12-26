@@ -30,7 +30,7 @@ Blockly.JavaScript['control_wait'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['wedo_motorclockwise'] = function(block) {
+Blockly.JavaScript['mbot_motorclockwise'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
@@ -41,7 +41,7 @@ Blockly.JavaScript['wedo_motorclockwise'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['wedo_motorforward'] = function(block) {
+Blockly.JavaScript['mbot_motorforward'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
@@ -52,7 +52,7 @@ Blockly.JavaScript['wedo_motorforward'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['wedo_motorbackward'] = function(block) {
+Blockly.JavaScript['mbot_motorbackward'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
@@ -63,7 +63,7 @@ Blockly.JavaScript['wedo_motorbackward'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['wedo_motorcounterclockwise'] = function(block) {
+Blockly.JavaScript['mbot_motorcounterclockwise'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
@@ -74,7 +74,7 @@ Blockly.JavaScript['wedo_motorcounterclockwise'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['wedo_motorspeed'] = function(block) {
+Blockly.JavaScript['mbot_motorspeed'] = function(block) {
   //var duration = Blockly.JavaScript.valueToCode(block, "DURATION", Blockly.JavaScript.ORDER_ATOMIC);
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
@@ -84,15 +84,15 @@ Blockly.JavaScript['wedo_motorspeed'] = function(block) {
 };
 
 
-Blockly.JavaScript['dropdown_wedo_setcolor'] = function(block) {
+Blockly.JavaScript['dropdown_mbot_setcolor'] = function(block) {
 
   var value = block.getFieldValue("CHOICE");
   var code = value;
   return code;
 };
 
-//wedo_setcolor
-Blockly.JavaScript['wedo_setcolor'] = function(block) {
+//mbot_setcolor
+Blockly.JavaScript['mbot_setcolor'] = function(block) {
   var value = Blockly.JavaScript.statementToCode(block, "CHOICE").trim();//, Blockly.JavaScript.ORDER_ADDITION);
   //var code = 'setLed(\'' + value + '\');' + "\n";
   var newR = 0;var newG = 0;var newB = 0;

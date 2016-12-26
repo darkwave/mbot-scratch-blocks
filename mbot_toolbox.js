@@ -29,9 +29,9 @@ goog.require('Blockly.Blocks');
  */
 
 Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: none">' +
-    '<category name="Events">' +
+    '<category name="Events" colour="#ffee00" secondaryColour="#ffcc00">' +
         '<block type="event_whenflagclicked"></block>' +
-        '<block type="event_whenbroadcastreceived">' +
+        '<!--block type="event_whenbroadcastreceived">' +
         '<value name="CHOICE">' +
         '<shadow type="dropdown_whenbroadcast">' +
         '<field name="CHOICE">blue</field>' +
@@ -44,10 +44,10 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '<field name="CHOICE">blue</field>' +
         '</shadow>' +
         '</value>' +
-        '</block>' +
+        '</block-->' +
     '</category>' +
-    '<category name="Control">' +
-        '<block type="control_forever"></block>' +
+    '<category name="Control" colour="#ffcc00" secondaryColour="#ff9900">' +
+        '<!--block type="control_forever"></block-->' +
         '<block type="control_repeat">' +
         '<value name="TIMES">' +
         '<shadow type="math_whole_number">' +
@@ -55,7 +55,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<block type="control_stop"></block>' +
+        '<!--block type="control_stop"></block-->' +
         '<block type="control_wait">' +
         '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
@@ -64,43 +64,57 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</value>' +
         '</block>' +
     '</category>' +
-    '<category name="Wedo">' +
-        '<block type="wedo_setcolor">' +
+    '<category name="Robot" colour="210" secondaryColour="220">' +
+        '<block type="mbot_setcolor">' +
         '<value name="CHOICE">' +
-        '<shadow type="dropdown_wedo_setcolor">' +
+        '<shadow type="dropdown_mbot_setcolor">' +
         '<field name="CHOICE">mystery</field>' +
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<block type="wedo_motorclockwise">' +
+        '<block type="mbot_motorforward">' +
         '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
         '<field name="NUM">1</field>' +
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<block type="wedo_motorcounterclockwise">' +
+        '<block type="mbot_motorbackward">' +
         '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
         '<field name="NUM">1</field>' +
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<block type="wedo_motorspeed">' +
+        '<block type="mbot_motorclockwise">' +
+        '<value name="DURATION">' +
+        '<shadow type="math_positive_number">' +
+        '<field name="NUM">1</field>' +
+        '</shadow>' +
+        '</value>' +
+        '</block>' +
+        '<block type="mbot_motorcounterclockwise">' +
+        '<value name="DURATION">' +
+        '<shadow type="math_positive_number">' +
+        '<field name="NUM">1</field>' +
+        '</shadow>' +
+        '</value>' +
+        '</block>' +
+        '<block type="mbot_motorspeed">' +
         '<value name="CHOICE">' +
-        '<shadow type="dropdown_wedo_motorspeed">' +
+        '<shadow type="dropdown_mbot_motorspeed">' +
         '<field name="CHOICE">fast</field>' +
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<block type="wedo_whentilt">' +
+        '<!--block type="mbot_whentilt">' +
         '<value name="CHOICE">' +
-        '<shadow type="dropdown_wedo_whentilt">' +
+        '<shadow type="dropdown_mbot_whentilt">' +
         '<field name="CHOICE">forward</field>' +
         '</shadow>' +
         '</value>' +
-        '</block>' +
-        '<block type="wedo_whendistanceclose"></block>' +
+        '</block-->' +
+        '<!--block type="mbot_whendistanceclose"></block-->' +
         '</category>' +
         '</xml>' +
         '<xml id="toolbox-simple" style="display: none">' +

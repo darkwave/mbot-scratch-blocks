@@ -19,18 +19,18 @@
  */
 
 /**
- * @fileoverview Wedo blocks for Scratch (Horizontal)
- * @author ascii@media.mit.edu <Andrew Sliwinski>
+ * @fileoverview mbot blocks for Scratch (Horizontal)
+ * @author dw@mondonerd.com <Massimo Avvisati>
  */
 'use strict';
 
-goog.provide('Blockly.Blocks.wedo');
+goog.provide('Blockly.Blocks.mbot');
 
 goog.require('Blockly.Blocks');
 
 goog.require('Blockly.Colours');
 
-Blockly.Blocks['dropdown_wedo_setcolor'] = {
+Blockly.Blocks['dropdown_mbot_setcolor'] = {
   /**
    * Block for set color drop-down (used for shadow).
    * @this Blockly.Block
@@ -65,14 +65,14 @@ Blockly.Blocks['dropdown_wedo_setcolor'] = {
   }
 };
 
-Blockly.Blocks['wedo_setcolor'] = {
+Blockly.Blocks['mbot_setcolor'] = {
   /**
    * Block to set color of LED
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "id": "wedo_setcolor",
+      "id": "mbot_setcolor",
       "message0": "%1 %2",
       "args0": [
         {
@@ -98,19 +98,19 @@ Blockly.Blocks['wedo_setcolor'] = {
   }
 };
 
-Blockly.Blocks['wedo_motorclockwise'] = {
+Blockly.Blocks['mbot_motorforward'] = {
   /**
-   * Block to spin motor clockwise.
+   * Block to go forward.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "id": "wedo_motorclockwise",
+      "id": "mbot_motorforward",
       "message0": "%1 %2",
       "args0": [
         {
           "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_motor-clockwise.svg",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-forward.svg",
           "width": 40,
           "height": 40,
           "alt": "Turn motor clockwise"
@@ -132,19 +132,88 @@ Blockly.Blocks['wedo_motorclockwise'] = {
   }
 };
 
-Blockly.Blocks['wedo_motorcounterclockwise'] = {
+Blockly.Blocks['mbot_motorbackward'] = {
+  /**
+   * Block to go forward.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "mbot_motorbackward",
+      "message0": "%1 %2",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-backward.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn motor clockwise"
+        },
+        {
+          "type": "input_value",
+          "name": "DURATION",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.motion,
+      "colour": Blockly.Colours.motion.primary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary
+    });
+  }
+};
+
+
+Blockly.Blocks['mbot_motorclockwise'] = {
+  /**
+   * Block to spin motor clockwise.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "mbot_motorclockwise",
+      "message0": "%1 %2",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-clockwise.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn motor clockwise"
+        },
+        {
+          "type": "input_value",
+          "name": "DURATION",
+          "check": "Number"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.motion,
+      "colour": Blockly.Colours.motion.primary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary
+    });
+  }
+};
+
+Blockly.Blocks['mbot_motorcounterclockwise'] = {
   /**
    * Block to spin motor counter-clockwise.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "id": "wedo_motorcounterclockwise",
+      "id": "mbot_motorcounterclockwise",
       "message0": "%1 %2",
       "args0": [
         {
           "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_motor-counterclockwise.svg",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-counterclockwise.svg",
           "width": 40,
           "height": 40,
           "alt": "Turn motor counter-clockwise"
@@ -166,7 +235,7 @@ Blockly.Blocks['wedo_motorcounterclockwise'] = {
   }
 };
 
-Blockly.Blocks['dropdown_wedo_motorspeed'] = {
+Blockly.Blocks['dropdown_mbot_motorspeed'] = {
   /**
    * Block for motor speed drop-down (used for shadow).
    * @this Blockly.Block
@@ -174,11 +243,11 @@ Blockly.Blocks['dropdown_wedo_motorspeed'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldIconMenu([
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_motor-speed_slow.svg',
+            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/mbot_motor-speed_slow.svg',
               value: 'slow', width: 48, height: 48, alt: 'Slow'},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_motor-speed_med.svg',
+            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/mbot_motor-speed_med.svg',
               value: 'medium', width: 48, height: 48, alt: 'Medium'},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_motor-speed_fast.svg',
+            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/mbot_motor-speed_fast.svg',
               value: 'fast', width: 48, height: 48, alt: 'Fast'}
         ]), 'CHOICE');
     this.setOutput(true);
@@ -189,19 +258,19 @@ Blockly.Blocks['dropdown_wedo_motorspeed'] = {
   }
 };
 
-Blockly.Blocks['wedo_motorspeed'] = {
+Blockly.Blocks['mbot_motorspeed'] = {
   /**
    * Block to set motor speed.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "id": "wedo_motorspeed",
+      "id": "mbot_motorspeed",
       "message0": "%1 %2",
       "args0": [
         {
           "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_motor-speed_fast.svg",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-speed_fast.svg",
           "width": 40,
           "height": 40,
           "alt": "Motor Speed"
@@ -222,81 +291,20 @@ Blockly.Blocks['wedo_motorspeed'] = {
   }
 };
 
-Blockly.Blocks['dropdown_wedo_whentilt'] = {
+Blockly.Blocks['mbot_whendistanceclose'] = {
   /**
-   * Block for when tilt drop-down (used for shadow).
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldIconMenu([
-            {type: 'placeholder', width: 48, height: 48},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_when-tilt-forward.svg',
-              value: 'forward', width: 48, height: 48, alt: 'Tilt forward'},
-            {type: 'placeholder', width: 48, height: 48},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_when-tilt-left.svg',
-              value: 'left', width: 48, height: 48, alt: 'Tilt left'},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_when-tilt.svg',
-              value: 'any', width: 48, height: 48, alt: 'Tilt any'},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_when-tilt-right.svg',
-                value: 'right', width: 48, height: 48, alt: 'Tilt right'},
-            {type: 'placeholder', width: 48, height: 48},
-            {src: Blockly.mainWorkspace.options.pathToMedia + 'icons/wedo_when-tilt-backward.svg',
-                value: 'backward', width: 48, height: 48, alt: 'Tilt backward'}
-        ]), 'CHOICE');
-    this.setOutput(true);
-    this.setColour(Blockly.Colours.event.primary,
-      Blockly.Colours.event.secondary,
-      Blockly.Colours.event.tertiary
-    );
-  }
-};
-
-Blockly.Blocks['wedo_whentilt'] = {
-  /**
-   * Block for when tilted.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "id": "wedo_whentilt",
-      "message0": "%1 %2",
-      "args0": [
-        {
-          "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_when-tilt.svg",
-          "width": 40,
-          "height": 40,
-          "alt": "When tilted"
-        },
-        {
-          "type": "input_value",
-          "name": "CHOICE"
-        }
-      ],
-      "inputsInline": true,
-      "nextStatement": null,
-      "category": Blockly.Categories.event,
-      "colour": Blockly.Colours.event.primary,
-      "colourSecondary": Blockly.Colours.event.secondary,
-      "colourTertiary": Blockly.Colours.event.tertiary
-    });
-  }
-};
-
-Blockly.Blocks['wedo_whendistanceclose'] = {
-  /**
+   * TODO implement this
    * Block for when distance sensor is close.
    * @this Blockly.Block
    */
   init: function() {
     this.jsonInit({
-      "id": "wedo_whendistanceclose",
+      "id": "mbot_whendistanceclose",
       "message0": "%1",
       "args0": [
         {
           "type": "field_image",
-          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/wedo_when-distance_close.svg",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_when-distance_close.svg",
           "width": 40,
           "height": 40,
           "alt": "When distance close"
