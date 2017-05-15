@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-rebuild --force --pre-gyp-fix"
+    "postinstall": "electron-rebuild --force --pre-gyp-fix",
+    "pack": "build --dir",
+    "dist": "build --win",
+    "dist-deb": "build --linux"
   },
   "repository": "https://github.com/darkwave/mbot-scratch-blocks",
   "keywords": [
@@ -14,15 +17,25 @@
     "scratch",
     "STEM"
   ],
-  "author": "Massimo Avvisati (darkwave)",
+  "author": "Massimo Avvisati <massimo.avvisati@codemotion.it> (https://github.com/darkwave/mbot-scratch-blocks)",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "^1.4.1",
-    "electron-rebuild": "latest",
-    "electron-prebuilt": "latest"
+    "electron": "~1.6.2",
+    "electron-builder": "^17.1.1",
+    "electron-prebuilt": "latest",
+    "electron-rebuild": "latest"
   },
   "dependencies": {
     "tween.js": "^16.3.5",
     "node-hid": "latest"
-  }
+  },
+  "build": {
+        "appId": "com.codemotionkids.mbotjr",
+        "linux": {
+            "target": "deb"
+        },
+        "win": {
+            "target": "portable"
+        }
+    }
 }

@@ -30,8 +30,10 @@ function createWindow () {
   const Menu = electron.Menu;
   const MenuItem = electron.MenuItem;
 
-  const menu = Menu.getApplicationMenu()
-  menu.append(new MenuItem({label: 'RUN', click() { mainWindow.webContents.send('runCode'); }}))
+  const menu = new Menu()
+  menu.append(new MenuItem({label: 'RUN', click() { mainWindow.webContents.send('runCode'); }}));
+
+  menu.append(new MenuItem({label: 'DEBUG', click() { mainWindow.webContents.toggleDevTools(); }}))
   Menu.setApplicationMenu(menu)
 
   // Emitted when the window is closed.

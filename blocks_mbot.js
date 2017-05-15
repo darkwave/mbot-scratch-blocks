@@ -4,15 +4,20 @@ Blockly.JavaScript['event_whenflagclicked'] = function(block) {
   var code = getGlowTween(block);
   return code;
 };
-
+var repeated = 0;
 
 Blockly.JavaScript['control_repeat'] = function(block) {
       var value = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
-      var substack = Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
-      var code = "";
-      for (i = 0; i < value; i++)
-        code += substack;
+      //var substack = "";
+      console.log("repeat" + repeated + " :\n\t");
+      repeated++;
+      let code = "";
+      for (let i = 0; i < value; i++) {
+        code += Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
+        console.log(code);
+      }
       //; = 'for (i = 0; i < ' + value + '; i++)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
+
       return code;
 
 };
@@ -96,7 +101,7 @@ Blockly.JavaScript['mbot_setcolor'] = function(block) {
   var value = Blockly.JavaScript.statementToCode(block, "CHOICE").trim();//, Blockly.JavaScript.ORDER_ADDITION);
   //var code = 'setLed(\'' + value + '\');' + "\n";
   var newR = 0;var newG = 0;var newB = 0;
-  console.log(value);
+  //console.log(value);
   if (value === 'yellow') {
     newR = 255;
     newG = 255;
@@ -144,6 +149,7 @@ Blockly.JavaScript['mbot_setcolor'] = function(block) {
 var tweenCounter = 0;
 function runCode() {
 var code = "";
+repeated = 0;
 currentlyGlowingStack = null;
   for (i = 0; i < workspace.getTopBlocks().length; i++)
   if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
@@ -160,7 +166,7 @@ currentlyGlowingStack = null;
       workspace.glowStack(currentlyGlowingStack, false);
   });`
   eval(preCode + code + postCode);
-  console.log(code);
+  //console.log(code);
 
 }
 
@@ -215,6 +221,7 @@ function getMotorsTween(l, r, duration) {
 
 function getColorTween(r, g, b) {
   tweenCounter++;
+  console.log("color tween " + tweenCounter);
   return `
     var tween${tweenCounter} = new TWEEN.Tween({r: 0, g: 0, b: 0})
       .to({r: ${r}, g: ${g}, b: ${b}}, 1000)
