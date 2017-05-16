@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-rebuild --force --pre-gyp-fix",
+    "postinstall": "electron-rebuild --force --module_dir . -w node-hid",
     "pack": "build --dir",
     "dist": "build --win",
     "dist-deb": "build --linux"
@@ -20,14 +20,13 @@
   "author": "Massimo Avvisati <massimo.avvisati@codemotion.it> (https://github.com/darkwave/mbot-scratch-blocks)",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "~1.6.2",
-    "electron-builder": "^17.1.1",
-    "electron-prebuilt": "latest",
+	"electron": "latest",
+    "electron-builder": "latest",
     "electron-rebuild": "latest"
   },
   "dependencies": {
     "tween.js": "^16.3.5",
-    "node-hid": "latest"
+    "node-hid": "^0.5.4"
   },
   "build": {
         "appId": "com.codemotionkids.mbotjr",
