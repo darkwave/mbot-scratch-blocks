@@ -12,12 +12,26 @@
   <script src="blocks_horizontal/mbot.js"></script>
 
   <script src="mbot_toolbox.js"></script>
-
+<style media="screen">
+  #runBox {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 9;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 5px;
+    cursor: hand;
+  }
+</style>
 
 </head>
 
 <body>
   <div id="blocklyDiv"></div>
+  <div id="runBox" onclick="runCode()"><img src="media/icons/event_whenflagclicked.svg"></div>
 </body>
 
 <script src="hid_mbot.js"></script>

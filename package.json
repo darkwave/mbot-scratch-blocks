@@ -1,7 +1,7 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -20,21 +20,21 @@
   "author": "Massimo Avvisati <massimo.avvisati@codemotion.it> (https://github.com/darkwave/mbot-scratch-blocks)",
   "license": "GPL-3.0",
   "devDependencies": {
-	"electron": "latest",
+    "electron": "latest",
     "electron-builder": "latest",
     "electron-rebuild": "latest"
   },
   "dependencies": {
-    "tween.js": "^16.3.5",
-    "node-hid": "^0.5.4"
+    "node-hid": "^0.5.4",
+    "tween.js": "^16.3.5"
   },
   "build": {
-        "appId": "com.codemotionkids.mbotjr",
-        "linux": {
-            "target": "deb"
-        },
-        "win": {
-            "target": "portable"
-        }
+    "appId": "com.codemotionkids.mbotjr",
+    "linux": {
+      "target": "deb"
+    },
+    "win": {
+      "target": "portable"
     }
+  }
 }
