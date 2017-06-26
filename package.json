@@ -36,7 +36,7 @@
     },
     "win": {
       "target": "portable",
-      "icon": "build/icon.ico"
+      "icon": "icon.ico"
     }
   }
 }
