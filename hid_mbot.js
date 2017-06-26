@@ -1,44 +1,54 @@
 
 var HID = require('node-hid');
-var devices = HID.devices();
-
-//console.log(devices);
-var currentPath = "";
-for (i=0; i < devices.length; i++) {
-  console.log(devices[i].product + devices[i].path);
-  currentPath = devices[i].path;
-}
 var device;
-try {
-  device = new HID.HID(currentPath);//"1046", "65535");
-} catch (error) {
-  alert("Please attach mBot dongle and reload\n" + error);
+//var devices = HID.devices();
+connectDongle();
+//console.log(devices);
+// var currentPath = "";
+// for (i=0; i < devices.length; i++) {
+//   console.log(devices[i].product + devices[i].path);
+//   currentPath = devices[i].path;
+// }
+function connectDongle() {
+  try {
+    device = new HID.HID("1046", "65535");
+  } catch (error) {
+    console.log(error);
+    alert("Please attach mBot dongle and press OK\n");
+    connectDongle();
+  }
+
+  try {
+    var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
+    //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
+    //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
+    device.write(currentColor);
+    device.on("data", function(data) {
+      //console.log("data", data);
+      //device.write([0, 7, 0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+    });
+
+    device.on("error", function(error) {
+      console.log("error:" + error);
+    });
+  } catch(error) {
+    //TODO implement attach/detach using try/catch on every device.write call
+    alert("Please turn on your mBot and try again");
+    connectDongle();
+  }
 }
   //console.log(device);
-  try {
-  var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
-  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
-  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
-  device.write(currentColor);
-  device.on("data", function(data) {
-    //console.log("data", data);
 
-    //device.write([0, 7, 0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
-
-
-  });
-
-  device.on("error", function(error) {
-    console.log("error:" + error);
-
-  });
-} catch(error) {
-  //TODO implement attach/detach using try/catch on every device.write call
-  alert("Please turn on your mBot and try again");
-}
 
 function setLed(r,g,b) {
-  device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b]);
+  try {
+    device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b]);
+  } catch (e) {
+    alert("Please turn on your mBot and try again");
+    connectDongle();
+  } finally {
+
+  }
 }
 
 
@@ -49,11 +59,18 @@ function setMotors(left, right) {
 
   right_low = right & 0xff;
   right_high = (right >> 8) & 0xff;
+  try {
+    device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
+    device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
 
-  device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
-  device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
+  } catch (e) {
+    alert("Please turn on your mBot and try again");
+    connectDongle();
+  } finally {
+
+  }
   //ff 55 06 60 02 0a 09 ff 00 left motor
   //ff 55 06 60 02 0a 0a ff 00 right motor
-  console.log(left + ',' + right);
+  //console.log(left + ',' + right);
 
 }

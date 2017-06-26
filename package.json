@@ -25,6 +25,7 @@
     "electron-rebuild": "latest"
   },
   "dependencies": {
+    "electron-debug": "^1.2.0",
     "node-hid": "^0.5.4",
     "tween.js": "^16.3.5"
   },
