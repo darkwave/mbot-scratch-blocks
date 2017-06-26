@@ -1,6 +1,6 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
@@ -35,7 +35,8 @@
       "target": "deb"
     },
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "build/icon.ico"
     }
   }
 }
