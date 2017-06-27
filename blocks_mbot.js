@@ -1,22 +1,23 @@
 var currentlyGlowingStack = null;
 
 Blockly.JavaScript['event_whenflagclicked'] = function(block) {
-  var code = getGlowTween(block);
+  var code = "";
   return code;
 };
-var repeated = 0;
+//var repeated = 0;
 
 Blockly.JavaScript['control_repeat'] = function(block) {
       var value = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
       //var substack = "";
-      console.log("repeat" + repeated + " :\n\t");
-      repeated++;
-      let code = "";
+      //console.log("repeat" + repeated + " :\n\t");
+      //repeated++;
+      /*let code = "";
       for (let i = 0; i < value; i++) {
         code += Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
         console.log(code);
-      }
-      //; = 'for (i = 0; i < ' + value + '; i++)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
+      }*/
+      var substack = Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
+      var code = 'for (var i = 0; i < ' + value + '; i++)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
 
       return code;
 
@@ -31,7 +32,7 @@ Blockly.JavaScript['control_wait'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getWaitTween(duration);
+  var code = "wait("+duration+");\n";//TODO getWaitTween(duration);
   return code;
 };
 
@@ -42,7 +43,7 @@ Blockly.JavaScript['mbot_motorclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(-1, 1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = "";//TODO getMotorsTween(-1, 1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -53,7 +54,7 @@ Blockly.JavaScript['mbot_motorforward'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(-1, -1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = "";//TODO getMotorsTween(-1, -1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -64,7 +65,7 @@ Blockly.JavaScript['mbot_motorbackward'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(1, 1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = "";//TODO getMotorsTween(1, 1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -75,7 +76,7 @@ Blockly.JavaScript['mbot_motorcounterclockwise'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   //console.log(block);
   //console.log(duration);
-  var code = getMotorsTween(1, -1, duration) + getMotorsTween(0, 0, 0.1);
+  var code = "";//TODO getMotorsTween(1, -1, duration) + getMotorsTween(0, 0, 0.1);
   return code;
 };
 
@@ -84,7 +85,7 @@ Blockly.JavaScript['mbot_motorspeed'] = function(block) {
 //var child = Blockly.JavaScript.statementToCode(block, 'DURATION');
 //  console.log(block.inputList);
   var newSpeed = block.getChildren()[0].getFieldValue('CHOICE');
-  var code = getMotorsSpeed(newSpeed);
+  var code = "";//TODO getMotorsSpeed(newSpeed);
   return code;
 };
 
@@ -143,10 +144,37 @@ Blockly.JavaScript['mbot_setcolor'] = function(block) {
   //tweenCounter++;
   //code = "var tween" + tweenCounter +" = new TWEEN.Tween({r: 0, g: 0, b: 0})
   //.to({ r: "+newR+", g: "+ newG + ", b: " + newB + " }, 1000).onUpdate(function() {  setLed(this.r,this.g,this.b);  }); lastTween.chain(tween" + tweenCounter +"); lastTween = tween" + tweenCounter +";";
-  code = getColorTween(newR, newG, newB);
+  code = "setLed(\""+value+"\");\n";//TODO "setLed("+newR+",  "+ newG + ",  "+ newB + ");";
   return code;
 }
 var tweenCounter = 0;
+
+function stepCode(highlighting) {
+  if (highlighting)
+    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+  else
+    Blockly.JavaScript.STATEMENT_PREFIX = null;
+
+  var code = Blockly.JavaScript.workspaceToCode(workspace);
+  console.log(code);
+  var intrepreterAvailable = false;
+  try {
+    myInterpreter = new Interpreter(code, initApi);
+    intrepreterAvailable = true;
+  } catch (e) {
+    console.log("You are using eval() function consider using Interpreter\nhttps://developers.google.com/blockly/guides/app-integration/running-javascript#js_interpreter");
+  } finally {
+    if (intrepreterAvailable) {
+      nextStep();
+    } else {
+      eval(code);
+    }
+  }
+
+
+  //workspace.highlightBlock(null);
+}
+
 function runCode() {
 var code = "";
 repeated = 0;

@@ -10,7 +10,9 @@
   <script src="blocks_horizontal/control.js"></script>
   <script src="blocks_horizontal/event.js"></script>
   <script src="blocks_horizontal/mbot.js"></script>
-
+  <!-- https://developers.google.com/blockly/guides/app-integration/running-javascript#js_interpreter -->
+  <script src="acorn_interpreter.js"></script>
+  <script src="myInterpreter.js"></script>
   <script src="mbot_toolbox.js"></script>
 <style media="screen">
   #runBox {
@@ -31,13 +33,12 @@
 
 <body>
   <div id="blocklyDiv"></div>
-  <div id="runBox" onclick="runCode()"><img src="media/icons/event_whenflagclicked.svg"></div>
+  <div id="runBox" onclick="stepCode(false)"><img src="media/icons/event_whenflagclicked.svg"></div>
 </body>
 
 <script src="hid_mbot.js"></script>
 
 <script src="blocks_mbot.js"></script>
-<script src="mbot_menu.js"></script>
 <script>
 var workspace = Blockly.inject('blocklyDiv', {
   comments: false,
@@ -73,31 +74,8 @@ var workspace = Blockly.inject('blocklyDiv', {
   }
 });
 
-
-var TWEEN = require('tween.js');
-
-
-requestAnimationFrame(animate);
-
-function animate(time) {
-    requestAnimationFrame(animate);
-    TWEEN.update(time);
-}
-
-
-
-
   //following Orion Protocol http://learn.makeblock.com/makeblock-orion-protocol/
-  //var changeLED = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 100, 0];
-  /*
-  function setLed(r,g,b) {
-    var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b];
 
-      device.write(currentColor);
-
-  }
-
-*/
 
 device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 0, 0]);
 </script>

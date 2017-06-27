@@ -40,12 +40,17 @@ function connectDongle() {
   //console.log(device);
 
 
-function setLed(r,g,b) {
+function setLed(colorName) {
+  console.log("setting color to..." + colorName);
+  r = 255;
+  g = 0;
+  b = 0;
   try {
     device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, r, g, b]);
   } catch (e) {
-    alert("Please turn on your mBot and try again");
-    connectDongle();
+    //alert("Please turn on your mBot and try again");
+    //connectDongle();
+    console.log(e);
   } finally {
 
   }
