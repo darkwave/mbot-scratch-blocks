@@ -2,14 +2,24 @@ var myInterpreter;
 var waitStep = 0;
 var glowingId = null;
 function highlightBlock(id) {
-  if (glowingId != null)
-    workspace.glowBlock(glowingId, false);
-  glowingId = id;
-  workspace.glowBlock(id, true);
+  // if (glowingId != null)
+  //   workspace.glowBlock(glowingId, false);
+  // glowingId = id;
+  //workspace.glowBlock(id, true);
+  var block = workspace.getBlockById(glowingId);
+  if (block) {
+    block.setGlowBlock(false);
+  }
+
+  block = workspace.getBlockById(id);
+  if (block) {
+    block.setGlowBlock(true);
+    glowingId = id;
+  }
 }
 
 function wait(ms) {
-  waitStep = ms;
+  waitStep = ms * 1000;
 }
 
 /*
@@ -34,30 +44,44 @@ function initApi(interpreter, scope) {
   interpreter.setProperty(scope, 'wait',
       interpreter.createNativeFunction(wrapper));
 
-  // Add an API function for the alert() block.
+  // Add an API function for the "alert" block.
   wrapper = function(text) {
     text = text ? text.toString() : '';
     return interpreter.createPrimitive(alert(text));
   };
   interpreter.setProperty(scope, 'alert',
-      interpreter.createNativeFunction(wrapper));
+  interpreter.createNativeFunction(wrapper));
 
-  // Add an API function for the prompt() block.
+  // Add an API function for the "prompt" block.
   wrapper = function(msg) {
     msg = msg ? msg.toString() : '';
     return interpreter.createPrimitive(prompt(msg));
   };
   interpreter.setProperty(scope, 'prompt',
-      interpreter.createNativeFunction(wrapper));
+  interpreter.createNativeFunction(wrapper));
 
-      // Add an API function for the prompt() block.
-      wrapper = function(colorName) {
-        colorName = colorName ? colorName.toString() : '';
-        return interpreter.createPrimitive(setLed(colorName));
-      };
-      interpreter.setProperty(scope, 'setLed',
-          interpreter.createNativeFunction(wrapper));
+  // Add an API function for the "setLed" block.
+  wrapper = function(colorName) {
+    colorName = colorName ? colorName.toString() : '';
+    return interpreter.createPrimitive(setLed(colorName));
+  };
+  interpreter.setProperty(scope, 'setLed',
+  interpreter.createNativeFunction(wrapper));
 
+  // Add an API function for the "setMotorsSpeed" block.
+  wrapper = function(speed) {
+    speed = speed ? speed.toString() : '';
+    return interpreter.createPrimitive(setMotorsSpeed(speed));
+  };
+  interpreter.setProperty(scope, 'setMotorsSpeed',
+  interpreter.createNativeFunction(wrapper));
+
+  // Add an API function for the "setMotors" block.
+  wrapper = function(l, r, d) {
+    return interpreter.createPrimitive(setMotors(l , r));
+  };
+  interpreter.setProperty(scope, 'setMotors',
+  interpreter.createNativeFunction(wrapper));
 }
 
 function nextStep() {
@@ -67,8 +91,10 @@ function nextStep() {
       window.setTimeout(nextStep, waitStep);
       waitStep = 0;
     } else {
-      if (glowingId != null)
-      workspace.glowBlock(glowingId, false);
+      var block = workspace.getBlockById(glowingId);
+      if (block) {
+        block.setGlowBlock(false);
+      }
     }
   } catch (e) {
     console.log(e);

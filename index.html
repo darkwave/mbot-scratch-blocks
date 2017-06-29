@@ -33,7 +33,7 @@
 
 <body>
   <div id="blocklyDiv"></div>
-  <div id="runBox" onclick="stepCode(false)"><img src="media/icons/event_whenflagclicked.svg"></div>
+  <div id="runBox" onclick="stepCode(true)"><img src="media/icons/event_whenflagclicked.svg"></div>
 </body>
 
 <script src="hid_mbot.js"></script>
@@ -74,9 +74,5 @@ var workspace = Blockly.inject('blocklyDiv', {
   }
 });
 
-  //following Orion Protocol http://learn.makeblock.com/makeblock-orion-protocol/
-
-
-device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 0, 0]);
 </script>
 </html>
