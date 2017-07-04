@@ -29,15 +29,30 @@ function connectDongle() {
 
     device.on("data", function(data) {
       var response = [];
+      var sensorData = [];
+      var hasData = false;
       for (var i = 0; i < data.length; i++)
         if (data[i] != 0)
-          response.push(data[i]);
-      if (response.length > 0)
-        console.log(response);
+          //response.push(data[i]);
+          hasData = true;
+
+       if (hasData) {
+         var result = 0;
+         for (var index = 5; index < data[0] - 1; index++) {
+           sensorData.push(data[index]);
+         }
+         result = ( sensorData[0] << 24 ) + ( sensorData[1] << 16 ) + ( sensorData[2] << 8 ) + sensorData[3]
+
+        //  if (result > 0)
+        //  console.log(result);
+         console.log(sensorData);
+       }
     });
 
     device.on("error", function(error) {
       console.log("error:" + error);
+      alert("Please attach mBot dongle and press OK\n");
+      connectDongle();
     });
   } catch(error) {
     //TODO implement attach/detach using try/catch on every device.write call
@@ -45,14 +60,15 @@ function connectDongle() {
     connectDongle();
   }
   //ff 55 04 05 01 03 03
-  window.setTimeout(getLightSensor, 1000);
+  // window.setTimeout(getLightSensor, 0);
+  window.setTimeout(getDistanceSensor, 0);
 }
   //console.log(device);
 function getLightSensor() {
   //console.log("Reading light sensor!");
   try {
     //ff 55 04 60 01 11 02
-    device.write([0, 8 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+    device.write([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
     // console.log(device.readSync());
   } catch (e) {
 
@@ -60,6 +76,33 @@ function getLightSensor() {
     window.setTimeout(getLightSensor, 1000);
   }
 }
+
+function getDistanceSensor() {
+  //console.log("Reading distance sensor!");
+  try {
+    //ff 55 04 02 01 01 03
+    device.write([0, 7 ,0xff, 0x55, 0x04, 0x02, 0x01, 0x1, 0x03]);
+    // console.log(device.readSync());
+  } catch (e) {
+
+  } finally {
+    window.setTimeout(getDistanceSensor, 1000);
+  }
+}
+
+function getLineFollowSensor() {
+  //console.log("Reading distance sensor!");
+  try {
+    //ff 55 04 60 01 11 02
+    device.write([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+    // console.log(device.readSync());
+  } catch (e) {
+
+  } finally {
+    window.setTimeout(getLineFollowSensor, 1000);
+  }
+}
+
 
 function setLed(value) {
   var newR = 0;var newG = 0;var newB = 0;
