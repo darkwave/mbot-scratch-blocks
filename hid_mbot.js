@@ -1,10 +1,47 @@
 
 var HID = require('node-hid');
 var device;
+var robot;
 //TODO put inside green flag code inizialization for this and other vars
 const defaultMotorsSpeed = 150;
-var currentMotorsSpeed = defaultMotorsSpeed;//var devices = HID.devices();
-connectDongle();
+var currentMotorsSpeed = defaultMotorsSpeed;
+var lastDataReceived;
+function checkConnection() {
+
+  if (device == null) {
+    document.getElementById("runBox").style.display = "none";
+    document.getElementById("errorBox").style.display = "block";
+
+    document.getElementById("dongleStatus").src = "media/dongle_error.png";
+    try {
+      connectDongle();
+    } catch (e) {
+      console.log(e)
+    } finally {
+
+    }
+
+  } else {
+    document.getElementById("runBox").style.display = "block";
+    document.getElementById("errorBox").style.display = "none";
+    document.getElementById("dongleStatus").src = "media/dongle.png";
+
+  }
+  //console.log(Date.now() - lastDataReceived);
+
+  if (Date.now() - lastDataReceived > 1000) {
+
+    document.getElementById("robotStatus").src = "media/robot_error.png";
+  } else {
+    document.getElementById("robotStatus").src = "media/robot.png";
+  }
+
+  window.setTimeout(checkConnection, 500);
+}
+
+checkConnection();
+
+//var devices = HID.devices();
 //console.log(devices);
 // var currentPath = "";
 // for (i=0; i < devices.length; i++) {
@@ -14,54 +51,54 @@ connectDongle();
 function connectDongle() {
   try {
     device = new HID.HID("1046", "65535");
+
+
+    device.on("data", function(data) {
+      // var response = [];
+      // var sensorData = [];
+      // var hasData = false;
+      // //console.log(data);
+      // for (var i = 0; i < data.length; i++)
+      //   if (data[i] != 0)
+      //     //response.push(data[i]);
+      //     hasData = true;
+      //
+      //  if (hasData) {
+      //    var result = 0;
+      //    for (var index = 5; index < data[0] - 1; index++) {
+      //      sensorData.push(data[index]);
+      //    }
+      //    result = ( sensorData[0] << 24 ) + ( sensorData[1] << 16 ) + ( sensorData[2] << 8 ) + sensorData[3]
+      //
+      //   //  if (result > 0)
+      //   //  console.log(result);
+      //    //console.log(sensorData);
+
+      // }
+    });
+
+    device.on("error", function(error) {
+      device = null;
+      console.log(error);
+    });
+
   } catch (error) {
-    console.log(error);
-    alert("Please attach mBot dongle and press OK\n");
-    connectDongle();
+    //console.log(error);
+    //alert("Please attach mBot dongle and press OK\n");
+    //connectDongle();
+    //device = null;
+
+    throw 'Error dongle not connected';
   }
 
-  try {
     //var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
     //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
     //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
     //device.write(currentColor);
     setLed("white");
 
-    device.on("data", function(data) {
-      var response = [];
-      var sensorData = [];
-      var hasData = false;
-      for (var i = 0; i < data.length; i++)
-        if (data[i] != 0)
-          //response.push(data[i]);
-          hasData = true;
 
-       if (hasData) {
-         var result = 0;
-         for (var index = 5; index < data[0] - 1; index++) {
-           sensorData.push(data[index]);
-         }
-         result = ( sensorData[0] << 24 ) + ( sensorData[1] << 16 ) + ( sensorData[2] << 8 ) + sensorData[3]
 
-        //  if (result > 0)
-        //  console.log(result);
-         console.log(sensorData);
-       }
-    });
-
-    device.on("error", function(error) {
-      console.log("error:" + error);
-      alert("Please attach mBot dongle and press OK\n");
-      connectDongle();
-    });
-  } catch(error) {
-    //TODO implement attach/detach using try/catch on every device.write call
-    alert("Please turn on your mBot and try again");
-    connectDongle();
-  }
-  //ff 55 04 05 01 03 03
-  // window.setTimeout(getLightSensor, 0);
-  window.setTimeout(getDistanceSensor, 0);
 }
   //console.log(device);
 function getLightSensor() {
@@ -69,7 +106,6 @@ function getLightSensor() {
   try {
     //ff 55 04 60 01 11 02
     device.write([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
-    // console.log(device.readSync());
   } catch (e) {
 
   } finally {
@@ -99,7 +135,7 @@ function getLineFollowSensor() {
   } catch (e) {
 
   } finally {
-    window.setTimeout(getLineFollowSensor, 1000);
+    //window.setTimeout(getLineFollowSensor, 1000);
   }
 }
 
@@ -147,8 +183,7 @@ function setLed(value) {
   try {
     device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
   } catch (e) {
-    //TODO implement generic errors check
-    console.log(e);
+    device = null;
   } finally {
 
   }
@@ -164,7 +199,6 @@ function setMotorsSpeed(speed) {
     newSpeed = 100;
 
   currentMotorsSpeed = newSpeed;
-  console.log("new motor speed is " + speed);
 }
 
 
@@ -184,8 +218,8 @@ function setMotors(left, right) {
     device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
 
   } catch (e) {
-    alert("Please turn on your mBot and try again");
-    connectDongle();
+
+    device = null;
   } finally {
 
   }
