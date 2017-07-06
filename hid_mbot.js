@@ -1,7 +1,7 @@
 
 var HID = require('node-hid');
 var device;
-var robot;
+
 //TODO put inside green flag code inizialization for this and other vars
 const defaultMotorsSpeed = 150;
 var currentMotorsSpeed = defaultMotorsSpeed;
@@ -12,7 +12,8 @@ function checkConnection() {
     document.getElementById("runBox").style.display = "none";
     document.getElementById("errorBox").style.display = "block";
 
-    document.getElementById("dongleStatus").src = "media/dongle_error.png";
+    document.getElementById("connectionStatus").src = "media/connection_error.png";
+
     try {
       connectDongle();
     } catch (e) {
@@ -24,22 +25,23 @@ function checkConnection() {
   } else {
     document.getElementById("runBox").style.display = "block";
     document.getElementById("errorBox").style.display = "none";
-    document.getElementById("dongleStatus").src = "media/dongle.png";
+
+    document.getElementById("connectionStatus").src = "media/connection_idle.png";
 
   }
   //console.log(Date.now() - lastDataReceived);
+  //
+  // if (Date.now() - lastDataReceived > 1000) {
+  //
+  //   document.getElementById("robotStatus").src = "media/robot_error.png";
+  // } else {
+  //   document.getElementById("robotStatus").src = "media/robot.png";
+  // }
 
-  if (Date.now() - lastDataReceived > 1000) {
-
-    document.getElementById("robotStatus").src = "media/robot_error.png";
-  } else {
-    document.getElementById("robotStatus").src = "media/robot.png";
-  }
-
-  window.setTimeout(checkConnection, 500);
+  window.setTimeout(checkConnection, 1000);
 }
 
-checkConnection();
+document.addEventListener("DOMContentLoaded", checkConnection);
 
 //var devices = HID.devices();
 //console.log(devices);
@@ -52,16 +54,15 @@ function connectDongle() {
   try {
     device = new HID.HID("1046", "65535");
 
-
     device.on("data", function(data) {
+
       // var response = [];
       // var sensorData = [];
       // var hasData = false;
-      // //console.log(data);
-      // for (var i = 0; i < data.length; i++)
-      //   if (data[i] != 0)
+      //  for (var i = 0; i < data.length; i++)
+      //    if (data[i] != 0)
       //     //response.push(data[i]);
-      //     hasData = true;
+
       //
       //  if (hasData) {
       //    var result = 0;
@@ -79,11 +80,10 @@ function connectDongle() {
 
     device.on("error", function(error) {
       device = null;
-      console.log(error);
     });
 
   } catch (error) {
-    //console.log(error);
+    console.log(error);
     //alert("Please attach mBot dongle and press OK\n");
     //connectDongle();
     //device = null;
@@ -95,7 +95,7 @@ function connectDongle() {
     //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
     //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
     //device.write(currentColor);
-    setLed("white");
+
 
 
 
@@ -105,9 +105,9 @@ function getLightSensor() {
   //console.log("Reading light sensor!");
   try {
     //ff 55 04 60 01 11 02
-    device.write([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+    sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
   } catch (e) {
-
+    console.log(e);
   } finally {
     window.setTimeout(getLightSensor, 1000);
   }
@@ -117,7 +117,7 @@ function getDistanceSensor() {
   //console.log("Reading distance sensor!");
   try {
     //ff 55 04 02 01 01 03
-    device.write([0, 7 ,0xff, 0x55, 0x04, 0x02, 0x01, 0x1, 0x03]);
+    sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x02, 0x01, 0x1, 0x03]);
     // console.log(device.readSync());
   } catch (e) {
 
@@ -130,7 +130,7 @@ function getLineFollowSensor() {
   //console.log("Reading distance sensor!");
   try {
     //ff 55 04 60 01 11 02
-    device.write([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+    sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
     // console.log(device.readSync());
   } catch (e) {
 
@@ -180,12 +180,21 @@ function setLed(value) {
     newG = Math.floor(Math.random() * 255);
     newB = Math.floor(Math.random() * 255);
   }
-  try {
-    device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
-  } catch (e) {
-    device = null;
-  } finally {
+  //  device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
+  sendToRobot([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
+}
 
+function sendToRobot(command) {
+  if (device == null) {
+    stopInterpreter();
+    return;
+  }
+  try {
+    device.write(command);
+  } catch (e) {
+    alert("Control that your robot is turned on and retry!");
+    stopInterpreter();
+    console.log("Sending error: " + e);
   }
 }
 
@@ -214,8 +223,8 @@ function setMotors(left, right) {
   right_low = right & 0xff;
   right_high = (right >> 8) & 0xff;
   try {
-    device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
-    device.write([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
+    sendToRobot([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, left_low, left_high]);
+    sendToRobot([0, 9, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, right_low, right_high]);
 
   } catch (e) {
 

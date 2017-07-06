@@ -83,14 +83,18 @@ function initApi(interpreter, scope) {
   interpreter.setProperty(scope, 'setMotors',
   interpreter.createNativeFunction(wrapper));
 }
+var exitInterpreter = false;
+function stopInterpreter() {
+  exitInterpreter = true;
+}
 
 function nextStep() {
-
   try {
-    if (myInterpreter.step()) {
+    if (!exitInterpreter && myInterpreter.step()) {
       window.setTimeout(nextStep, waitStep);
       waitStep = 0;
     } else {
+      exitInterpreter = false;
       var block = workspace.getBlockById(glowingId);
       if (block) {
         block.setGlowBlock(false);
