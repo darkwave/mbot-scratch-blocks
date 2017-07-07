@@ -27,7 +27,7 @@ function checkConnection() {
     document.getElementById("errorBox").style.display = "none";
 
     document.getElementById("connectionStatus").src = "media/connection_idle.png";
-
+      getDistanceSensor();
   }
   //console.log(Date.now() - lastDataReceived);
   //
@@ -56,26 +56,43 @@ function connectDongle() {
 
     device.on("data", function(data) {
 
-      // var response = [];
-      // var sensorData = [];
-      // var hasData = false;
-      //  for (var i = 0; i < data.length; i++)
-      //    if (data[i] != 0)
-      //     //response.push(data[i]);
+      var hasData = false;
+      for (var i = 0; i < data.length; i++) {
+        if (data[i] != 0)
+        hasData = true;
+      }
 
-      //
-      //  if (hasData) {
-      //    var result = 0;
-      //    for (var index = 5; index < data[0] - 1; index++) {
-      //      sensorData.push(data[index]);
-      //    }
-      //    result = ( sensorData[0] << 24 ) + ( sensorData[1] << 16 ) + ( sensorData[2] << 8 ) + sensorData[3]
+      var reading =  [data[5], data[6], data[7], data[8]];
+
+      // Create a buffer
+      var buf = new ArrayBuffer(4);
+      // Create a data view of it
+      var view = new DataView(buf);
+
+      // set bytes
+      reading.forEach(function (b, i) {
+        view.setUint8(i, b);
+      });
+
+      // Read the bits as a float; note that by doing this, we're implicitly
+      // converting it from a 32-bit float into JavaScript's native 64-bit double
+      var num = view.getFloat32(0, true);
+      // Done
+      if (hasData)
+      console.log(num);
+
+
+      //result = (( data[5] << 24 ) | ( data[6] << 16 ) | ( data[7] << 8 ) | data[8]);
+      // if (hasData){
+      //   console.log(response);
+      // console.log("Result:" + result);
+      //}
       //
       //   //  if (result > 0)
       //   //  console.log(result);
-      //    //console.log(sensorData);
+      //    //
 
-      // }
+      //}
     });
 
     device.on("error", function(error) {
@@ -91,10 +108,10 @@ function connectDongle() {
     throw 'Error dongle not connected';
   }
 
-    //var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
-    //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
-    //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
-    //device.write(currentColor);
+  //var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
+  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
+  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
+  //device.write(currentColor);
 
 
 
@@ -122,7 +139,7 @@ function getDistanceSensor() {
   } catch (e) {
 
   } finally {
-    window.setTimeout(getDistanceSensor, 1000);
+    //window.setTimeout(getDistanceSensor, 1000);
   }
 }
 
