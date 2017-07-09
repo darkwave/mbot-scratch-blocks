@@ -47,7 +47,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</block-->' +
     '</category>' +
     '<category name="Control" colour="#ffcc00" secondaryColour="#ff9900">' +
-        '<!--block type="control_forever"></block-->' +
+        '<block type="control_forever"></block>' +
         '<block type="control_repeat">' +
         '<value name="TIMES">' +
         '<shadow type="math_whole_number">' +
@@ -64,7 +64,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</value>' +
         '</block>' +
     '</category>' +
-    '<category name="Robot" colour="210" secondaryColour="220">' +
+    '<category name="Looks" colour="#9966FF" secondaryColour="#855CD6">' +
         '<block type="mbot_setcolor">' +
         '<value name="CHOICE">' +
         '<shadow type="dropdown_mbot_setcolor">' +
@@ -72,6 +72,9 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
         '</value>' +
         '</block>' +
+        '<block type="mbot_nocolor"></block>'+
+    '</category>'+
+    '<category name="Motion" colour="#4C97FF" secondaryColour="#4280D7">' +
         '<block type="mbot_motorforward">' +
         '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +

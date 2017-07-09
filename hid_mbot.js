@@ -4,8 +4,11 @@ var device;
 
 //TODO put inside green flag code inizialization for this and other vars
 const defaultMotorsSpeed = 150;
+var distance = 400;
+var lineFollower = 0;
 var currentMotorsSpeed = defaultMotorsSpeed;
 var lastDataReceived;
+
 function checkConnection() {
 
   if (device == null) {
@@ -27,7 +30,8 @@ function checkConnection() {
     document.getElementById("errorBox").style.display = "none";
 
     document.getElementById("connectionStatus").src = "media/connection_idle.png";
-      getDistanceSensor();
+      //getDistanceSensor();
+      //getLineFollowSensor();
   }
   //console.log(Date.now() - lastDataReceived);
   //
@@ -41,7 +45,17 @@ function checkConnection() {
   window.setTimeout(checkConnection, 1000);
 }
 
-document.addEventListener("DOMContentLoaded", checkConnection);
+function startRobotConnection() {
+  checkConnection();
+  updateSensors();
+}
+
+function updateSensors() {
+  getLineFollowSensor();
+  getDistanceSensor();
+}
+
+document.addEventListener("DOMContentLoaded", startRobotConnection);
 
 //var devices = HID.devices();
 //console.log(devices);
@@ -55,6 +69,8 @@ function connectDongle() {
     device = new HID.HID("1046", "65535");
 
     device.on("data", function(data) {
+      if (data[3] == 0)
+        return;
 
       var hasData = false;
       for (var i = 0; i < data.length; i++) {
@@ -78,8 +94,13 @@ function connectDongle() {
       // converting it from a 32-bit float into JavaScript's native 64-bit double
       var num = view.getFloat32(0, true);
       // Done
-      if (hasData)
-      console.log(num);
+      if (data[3] == 2) {
+        distance = num;
+      } else if (data[3] == 96) {
+        lineFollower = num;
+      }
+      //console.log(data[3] + ":" + num);
+
 
 
       //result = (( data[5] << 24 ) | ( data[6] << 16 ) | ( data[7] << 8 ) | data[8]);
@@ -118,17 +139,17 @@ function connectDongle() {
 
 }
   //console.log(device);
-function getLightSensor() {
-  //console.log("Reading light sensor!");
-  try {
-    //ff 55 04 60 01 11 02
-    sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
-  } catch (e) {
-    console.log(e);
-  } finally {
-    window.setTimeout(getLightSensor, 1000);
-  }
-}
+// function getLightSensor() {
+//   //console.log("Reading light sensor!");
+//   try {
+//     //ff 55 04 60 01 11 02
+//     sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
+//   } catch (e) {
+//     console.log(e);
+//   } finally {
+//     //window.setTimeout(getLightSensor, 1000);
+//   }
+// }
 
 function getDistanceSensor() {
   //console.log("Reading distance sensor!");
@@ -139,7 +160,7 @@ function getDistanceSensor() {
   } catch (e) {
 
   } finally {
-    //window.setTimeout(getDistanceSensor, 1000);
+    window.setTimeout(getDistanceSensor, 200);
   }
 }
 
@@ -152,7 +173,7 @@ function getLineFollowSensor() {
   } catch (e) {
 
   } finally {
-    //window.setTimeout(getLineFollowSensor, 1000);
+    window.setTimeout(getLineFollowSensor, 200);
   }
 }
 
@@ -160,7 +181,11 @@ function getLineFollowSensor() {
 function setLed(value) {
   var newR = 0;var newG = 0;var newB = 0;
   //console.log(value);
-  if (value === 'yellow') {
+  if (value === 'black') {
+    newR = 0;
+    newG = 0;
+    newB = 0;
+  } else if (value === 'yellow') {
     newR = 255;
     newG = 255;
     newB = 0;

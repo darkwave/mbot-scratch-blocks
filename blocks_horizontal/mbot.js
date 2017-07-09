@@ -98,6 +98,40 @@ Blockly.Blocks['mbot_setcolor'] = {
   }
 };
 
+Blockly.Blocks['mbot_nocolor'] = {
+  /**
+   * Block to set color of LED
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "mbot_nocolor",
+      "message0": "%1 %2",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/no-color.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn off LED"
+        },
+        {
+          "type": "input_value",
+          "name": "CHOICE"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.looks,
+      "colour": Blockly.Colours.looks.primary,
+      "colourSecondary": Blockly.Colours.looks.secondary,
+      "colourTertiary": Blockly.Colours.looks.tertiary
+    });
+  }
+};
+
+
 Blockly.Blocks['mbot_motorforward'] = {
   /**
    * Block to go forward.

@@ -13,6 +13,13 @@ Blockly.JavaScript['control_repeat'] = function(block) {
       return code;
 };
 
+Blockly.JavaScript['control_forever'] = function(block) {
+      //var value = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
+      var substack = Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
+      var code = 'while (true)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
+      return code;
+};
+
 
 
 Blockly.JavaScript['control_wait'] = function(block) {
@@ -67,7 +74,12 @@ Blockly.JavaScript['mbot_setcolor'] = function(block) {
   code = "setLed(\""+value.slice(pos + 1).trim()+"\");\n";
   return code;
 }
-var tweenCounter = 0;
+//var tweenCounter = 0;
+
+Blockly.JavaScript['mbot_nocolor'] = function(block) {
+  code = "setLed(\"black\");\n";
+  return code;
+}
 
 function stepCode(highlighting) {
   if (highlighting) {
