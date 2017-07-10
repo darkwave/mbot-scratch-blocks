@@ -4,6 +4,12 @@ Blockly.JavaScript['event_whenflagclicked'] = function(block) {
   var code = "currentMotorsSpeed = 150;\n";
   return code;
 };
+
+Blockly.JavaScript['mbot_whendistanceclose'] = function(block) {
+
+  var code = "//......\n";
+  return code;
+};
 //var repeated = 0;
 
 Blockly.JavaScript['control_repeat'] = function(block) {
@@ -81,6 +87,7 @@ Blockly.JavaScript['mbot_nocolor'] = function(block) {
   return code;
 }
 
+
 function stepCode(highlighting) {
   if (highlighting) {
     Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
@@ -94,8 +101,10 @@ function stepCode(highlighting) {
   for (i = 0; i < workspace.getTopBlocks().length; i++)
   if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
     code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
+  else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
+    code += 'function whenDistance() {' + Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]) + '}';
 
-  //Blockly.JavaScript.workspaceToCode(workspace);
+  //Blockly.JavaScript.workspaceToCode(workspace);workspace.getTopBlocks()[i].type === "mbot_whendistanceclose"
   console.log(code);
   var intrepreterAvailable = false;
   try {
