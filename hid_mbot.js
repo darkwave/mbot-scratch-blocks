@@ -53,6 +53,7 @@ function startRobotConnection() {
 function updateSensors() {
   getLineFollowSensor();
   getDistanceSensor();
+
 }
 
 document.addEventListener("DOMContentLoaded", startRobotConnection);
@@ -64,6 +65,8 @@ document.addEventListener("DOMContentLoaded", startRobotConnection);
 //   console.log(devices[i].product + devices[i].path);
 //   currentPath = devices[i].path;
 // }
+
+
 function connectDongle() {
   try {
     device = new HID.HID("1046", "65535");
@@ -98,6 +101,10 @@ function connectDongle() {
         distance = num;
       } else if (data[3] == 96) {
         lineFollower = num;
+      }
+      if (distance < 5) {
+        console.log("short distance")
+        stepCode(true, true);
       }
       //console.log(data[3] + ":" + num);
 

@@ -87,8 +87,11 @@ Blockly.JavaScript['mbot_nocolor'] = function(block) {
   return code;
 }
 
-
-function stepCode(highlighting) {
+var eventTriggered = false;
+function stepCode(highlighting, triggered) {
+  if (eventTriggered && triggered)
+    return;
+    eventTriggered = triggered;
   if (highlighting) {
     Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
     Blockly.JavaScript.addReservedWords('highlightBlock');
@@ -98,12 +101,15 @@ function stepCode(highlighting) {
 
 
   var code = "";
+  var distanceFunction = "";
   for (i = 0; i < workspace.getTopBlocks().length; i++)
   if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
     code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
   else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
-    code += 'function whenDistance() {' + Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]) + '}';
+     distanceFunction = Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
 
+     if (distanceFunction.length > 0 && distance < 5)
+     code = distanceFunction;
   //Blockly.JavaScript.workspaceToCode(workspace);workspace.getTopBlocks()[i].type === "mbot_whendistanceclose"
   console.log(code);
   var intrepreterAvailable = false;

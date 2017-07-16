@@ -95,6 +95,7 @@ function nextStep() {
       waitStep = 0;
     } else {
       exitInterpreter = false;
+      eventTriggered = false;
       var block = workspace.getBlockById(glowingId);
       if (block) {
         block.setGlowBlock(false);
