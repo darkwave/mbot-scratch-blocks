@@ -269,6 +269,35 @@ Blockly.Blocks['mbot_motorcounterclockwise'] = {
   }
 };
 
+Blockly.Blocks['mbot_motorstop'] = {
+  /**
+   * Block to go forward.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "mbot_motorstop",
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/mbot_motor-stop.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Turn motor clockwise"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "category": Blockly.Categories.motion,
+      "colour": Blockly.Colours.motion.primary,
+      "colourSecondary": Blockly.Colours.motion.secondary,
+      "colourTertiary": Blockly.Colours.motion.tertiary
+    });
+  }
+};
+
 Blockly.Blocks['dropdown_mbot_motorspeed'] = {
   /**
    * Block for motor speed drop-down (used for shadow).

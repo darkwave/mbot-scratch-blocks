@@ -28,6 +28,10 @@ Blockly.JavaScript['control_forever'] = function(block) {
 
 
 
+Blockly.JavaScript['control_stop'] = function(block) {
+  var code = "stopInterpreter();\n";return code;
+};
+
 Blockly.JavaScript['control_wait'] = function(block) {
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   var code = "wait(" + duration + ");\n";return code;
@@ -57,6 +61,12 @@ Blockly.JavaScript['mbot_motorcounterclockwise'] = function(block) {
     return code;
 };
 
+Blockly.JavaScript['mbot_motorstop'] = function(block) {
+    var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
+    var code = "setMotors(0, 0);\n";
+    return code;
+};
+
 Blockly.JavaScript['mbot_motorspeed'] = function(block) {
   var newSpeed = block.getChildren()[0].getFieldValue('CHOICE');
   var code = "setMotorsSpeed(\""+newSpeed+"\");\n";
@@ -80,7 +90,11 @@ Blockly.JavaScript['mbot_setcolor'] = function(block) {
   code = "setLed(\""+value.slice(pos + 1).trim()+"\");\n";
   return code;
 }
-//var tweenCounter = 0;
+
+Blockly.JavaScript['control_restart'] = function(block) {
+  code = "restart();\n";
+  return code;
+}
 
 Blockly.JavaScript['mbot_nocolor'] = function(block) {
   code = "setLed(\"black\");\n";
@@ -89,9 +103,12 @@ Blockly.JavaScript['mbot_nocolor'] = function(block) {
 
 var eventTriggered = false;
 function stepCode(highlighting, triggered) {
+
   if (eventTriggered && triggered)
     return;
+
     eventTriggered = triggered;
+
   if (highlighting) {
     Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
     Blockly.JavaScript.addReservedWords('highlightBlock');
@@ -108,12 +125,16 @@ function stepCode(highlighting, triggered) {
   else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
      distanceFunction = Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
 
-     if (distanceFunction.length > 0 && distance < 5)
+     if (distanceFunction.length > 0 && eventTriggered)
      code = distanceFunction;
+     else if (distanceFunction.length == 0 && eventTriggered)
+     return;
   //Blockly.JavaScript.workspaceToCode(workspace);workspace.getTopBlocks()[i].type === "mbot_whendistanceclose"
-  console.log(code);
+  //console.log(code);
   var intrepreterAvailable = false;
   try {
+    
+
     myInterpreter = new Interpreter(code, initApi);
     intrepreterAvailable = true;
   } catch (e) {
@@ -127,107 +148,4 @@ function stepCode(highlighting, triggered) {
   }
   workspace.highlightBlock(null);
 
-  //workspace.highlightBlock(null);
 }
-/*
-function runCode() {
-var code = "";
-repeated = 0;
-currentlyGlowingStack = null;
-  for (i = 0; i < workspace.getTopBlocks().length; i++)
-  if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
-    code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
-
-  // We don't need all the workspace but only events connected blocks
-  //var code = Blockly.JavaScript.workspaceToCode(workspace);
-  tweenCounter = 0;
-  //TODO workspace.glowBlock
-
-  preCode = "var firstTween = new TWEEN.Tween(); var lastTween = firstTween;";
-  postCode = `firstTween.start(); lastTween.onComplete(function() {
-    if (currentlyGlowingStack != null)
-      workspace.glowStack(currentlyGlowingStack, false);
-  });`
-  eval(preCode + code + postCode);
-  //console.log(code);
-
-}
-
-function getWaitTween(duration) {
-  tweenCounter++;
-  return `
-    var tween${tweenCounter} = new TWEEN.Tween({delay:0})
-      .to({delay: 1}, ${duration * 1000});
-      lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
-      `;
-
-}
-
-// var motorSpeed = 255;
-//
-// function getMotorsSpeed(newSpeed) {
-//   tweenCounter++;
-//
-//   if (newSpeed === 'fast')
-//     newSpeed = 255;
-//     else if (newSpeed === 'medium')
-//     newSpeed = 150;
-//     else if (newSpeed === 'slow')
-//     newSpeed = 100;
-//
-//   return `
-//     var tween${tweenCounter} = new TWEEN.Tween().to(0, 100)
-//       .onUpdate(function() {
-//         motorSpeed = ${newSpeed};
-//       })
-//       ;
-//
-//       lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
-//   `;
-// }
-
-function getMotorsTween(l, r, duration) {
-  tweenCounter++;
-  //l *= motorSpeed;
-  //r *= motorSpeed;
-  return `
-    var tween${tweenCounter} = new TWEEN.Tween({l: ${l}, r: ${r}})
-      .to({l: ${l}, r: ${r}}, ${duration * 1000})
-      .onUpdate(function() {
-        setMotors(this.l * motorSpeed, this.r * motorSpeed);
-      })
-      ;
-
-      lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
-  `;
-}
-
-function getColorTween(r, g, b) {
-  tweenCounter++;
-  console.log("color tween " + tweenCounter);
-  return `
-    var tween${tweenCounter} = new TWEEN.Tween({r: 0, g: 0, b: 0})
-      .to({r: ${r}, g: ${g}, b: ${b}}, 1000)
-      .onUpdate(function() {
-        setLed(this.r,this.g,this.b);
-      });
-
-      lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
-  `;
-}
-
-function getGlowTween(block) {
-  tweenCounter++;
-  return `
-  var tween${tweenCounter} = new TWEEN.Tween()
-  .onStart(function() {
-    if (currentlyGlowingStack != null)
-      workspace.glowStack(currentlyGlowingStack, false);
-
-    currentlyGlowingStack = "${block.id}";
-    workspace.glowStack("${block.id}", true);
-    });
-  lastTween.chain(tween${tweenCounter}); lastTween = tween${tweenCounter};
-`;
-}
-*/

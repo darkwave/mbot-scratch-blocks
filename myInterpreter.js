@@ -82,6 +82,18 @@ function initApi(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'setMotors',
   interpreter.createNativeFunction(wrapper));
+  // Add an API function for the "stopInterpreter" block.
+  wrapper = function(l, r, d) {
+    return interpreter.createPrimitive(stopInterpreter());
+  };
+  interpreter.setProperty(scope, 'stopInterpreter',
+  interpreter.createNativeFunction(wrapper));
+  // Add an API function for the "stopInterpreter" block.
+  wrapper = function(l, r, d) {
+    return interpreter.createPrimitive(stepCode(true, false));
+  };
+  interpreter.setProperty(scope, 'restart',
+  interpreter.createNativeFunction(wrapper));
 }
 var exitInterpreter = false;
 function stopInterpreter() {
@@ -100,6 +112,8 @@ function nextStep() {
       if (block) {
         block.setGlowBlock(false);
       }
+
+      //TODO setMotors(0,0);
     }
   } catch (e) {
     console.log(e);

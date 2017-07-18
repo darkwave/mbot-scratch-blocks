@@ -172,6 +172,34 @@ Blockly.Blocks['control_stop'] = {
   }
 };
 
+Blockly.Blocks['control_restart'] = {
+  /**
+   * Block for stop all scripts.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "id": "control_stop",
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_image",
+          "src": Blockly.mainWorkspace.options.pathToMedia + "icons/event_whenflagclicked.svg",
+          "width": 40,
+          "height": 40,
+          "alt": "Stop"
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "category": Blockly.Categories.control,
+      "colour": Blockly.Colours.control.primary,
+      "colourSecondary": Blockly.Colours.control.secondary,
+      "colourTertiary": Blockly.Colours.control.tertiary
+    });
+  }
+};
+
 Blockly.Blocks['control_wait'] = {
   /**
    * Block to wait (pause) stack.

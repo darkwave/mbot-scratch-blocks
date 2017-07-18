@@ -32,20 +32,20 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
     '<category name="Events" colour="#ffee00" secondaryColour="#ffcc00">' +
         '<block type="event_whenflagclicked"></block>' +
         '<block type="mbot_whendistanceclose"></block>' +
-        '<!--block type="event_whenbroadcastreceived">' +
-        '<value name="CHOICE">' +
-        '<shadow type="dropdown_whenbroadcast">' +
-        '<field name="CHOICE">blue</field>' +
-        '</shadow>' +
-        '</value>' +
-        '</block>' +
-        '<block type="event_broadcast">' +
-        '<value name="CHOICE">' +
-        '<shadow type="dropdown_broadcast">' +
-        '<field name="CHOICE">blue</field>' +
-        '</shadow>' +
-        '</value>' +
-        '</block-->' +
+        // '<block type="event_whenbroadcastreceived">' +
+        // '<value name="CHOICE">' +
+        // '<shadow type="dropdown_whenbroadcast">' +
+        // '<field name="CHOICE">blue</field>' +
+        // '</shadow>' +
+        // '</value>' +
+        // '</block>' +
+        // '<block type="event_broadcast">' +
+        // '<value name="CHOICE">' +
+        // '<shadow type="dropdown_broadcast">' +
+        // '<field name="CHOICE">blue</field>' +
+        // '</shadow>' +
+        // '</value>' +
+        // '</block>' +
     '</category>' +
     '<category name="Control" colour="#ffcc00" secondaryColour="#ff9900">' +
         '<block type="control_forever"></block>' +
@@ -56,7 +56,8 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
         '</value>' +
         '</block>' +
-        '<!--block type="control_stop"></block-->' +
+        '<block type="control_stop"></block>' +
+        '<block type="control_restart"></block>' +
         '<block type="control_wait">' +
         '<value name="DURATION">' +
         '<shadow type="math_positive_number">' +
@@ -104,6 +105,7 @@ Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: no
         '</shadow>' +
         '</value>' +
         '</block>' +
+        '<block type="mbot_motorstop"></block>'+
         '<block type="mbot_motorspeed">' +
         '<value name="CHOICE">' +
         '<shadow type="dropdown_mbot_motorspeed">' +
