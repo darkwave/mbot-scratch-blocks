@@ -99,21 +99,34 @@ var exitInterpreter = false;
 function stopInterpreter() {
   exitInterpreter = true;
 }
+var interpreterTimer = null;
+
+function resetTimeout() {
+  if (interpreterTimer == null)
+    return;
+
+  clearTimeout(interpreterTimer);
+  interpreterTimer = null;
+
+}
 
 function nextStep() {
   try {
     if (!exitInterpreter && myInterpreter.step()) {
-      window.setTimeout(nextStep, waitStep);
+      resetTimeout();
+      interpreterTimer = window.setTimeout(nextStep, waitStep);
+
       waitStep = 0;
     } else {
       exitInterpreter = false;
       eventTriggered = false;
+      resetTimeout();
       var block = workspace.getBlockById(glowingId);
       if (block) {
         block.setGlowBlock(false);
       }
-
-      //TODO setMotors(0,0);
+      setLed(0, 0, 0);
+      setMotors(0,0);
     }
   } catch (e) {
     console.log(e);

@@ -133,8 +133,9 @@ function stepCode(highlighting, triggered) {
   //console.log(code);
   var intrepreterAvailable = false;
   try {
-    
-
+    // if (interpreterTimer != null)
+    //   clearTimeout(interpreterTimer);
+    resetTimeout();
     myInterpreter = new Interpreter(code, initApi);
     intrepreterAvailable = true;
   } catch (e) {
