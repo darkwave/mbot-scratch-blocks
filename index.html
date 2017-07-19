@@ -117,5 +117,43 @@ var workspace = Blockly.inject('blocklyDiv', {
   }
 });
 
+var greenFlagID = "";
+var alreadyHasGreenFlag = false;
+function workspaceChanged(primaryEvent) {
+      //
+      // if (primaryEvent.type == Blockly.Events.CREATE) {
+      //
+      //   var block = workspace.getBlockById(primaryEvent.blockId);
+      //   if (block.type == "event_whenflagclicked") {
+      //     if (!alreadyHasGreenFlag) {
+      //       greenFlagID = block.id;
+      //       console.log("GREEN FLAG ADDED");
+      //       alreadyHasGreenFlag = true;
+      //     } else {
+      //       var deleteBlock = new Blockly.Events.Delete(block);
+      //       deleteBlock.run(true);
+      //     }
+      //   }
+      //
+      //
+      // } else if (primaryEvent.type == Blockly.Events.DELETE) {
+      //   if (primaryEvent.blockId == greenFlagID) {
+      //     console.log("GREEN FLAG DELETED");
+      //     alreadyHasGreenFlag = false;
+      //   }
+      // }
+
+
+      // Convert event to JSON.  This could then be transmitted across the net.
+      //var json = primaryEvent.toJson();
+      //console.log(json);
+
+      // Convert JSON back into an event, then execute it.
+      // var secondaryEvent = Blockly.Events.fromJson(json, seconaryWorkspace);
+      // secondaryEvent.run(true);
+
+}
+
+workspace.addChangeListener(workspaceChanged);
 </script>
 </html>

@@ -102,25 +102,11 @@ function connectDongle() {
       } else if (data[3] == 96) {
         lineFollower = num;
       }
-      if (distance < 5) {
-        console.log("short distance")
+      if (distance < 7) {
+        //Trigger short distance event
         stepCode(true, true);
       }
-      //console.log(data[3] + ":" + num);
 
-
-
-      //result = (( data[5] << 24 ) | ( data[6] << 16 ) | ( data[7] << 8 ) | data[8]);
-      // if (hasData){
-      //   console.log(response);
-      // console.log("Result:" + result);
-      //}
-      //
-      //   //  if (result > 0)
-      //   //  console.log(result);
-      //    //
-
-      //}
     });
 
     device.on("error", function(error) {
@@ -135,35 +121,13 @@ function connectDongle() {
 
     throw 'Error dongle not connected';
   }
-
-  //var currentColor = [0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, 255, 150, 0];
-  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x09, 0, 0]);
-  //device.write([0, 8, 0xff, 0x55, 0x06, 0x60, 0x02, 0x0a, 0x0a, 0, 0]);
-  //device.write(currentColor);
-
-
-
-
 }
-  //console.log(device);
-// function getLightSensor() {
-//   //console.log("Reading light sensor!");
-//   try {
-//     //ff 55 04 60 01 11 02
-//     sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
-//   } catch (e) {
-//     console.log(e);
-//   } finally {
-//     //window.setTimeout(getLightSensor, 1000);
-//   }
-// }
 
 function getDistanceSensor() {
-  //console.log("Reading distance sensor!");
+  //Reading distance sensor
   try {
     //ff 55 04 02 01 01 03
     sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x02, 0x01, 0x1, 0x03]);
-    // console.log(device.readSync());
   } catch (e) {
 
   } finally {
@@ -172,11 +136,10 @@ function getDistanceSensor() {
 }
 
 function getLineFollowSensor() {
-  //console.log("Reading distance sensor!");
   try {
     //ff 55 04 60 01 11 02
     sendToRobot([0, 7 ,0xff, 0x55, 0x04, 0x60, 0x01, 0x11, 0x02]);
-    // console.log(device.readSync());
+
   } catch (e) {
 
   } finally {
@@ -187,7 +150,6 @@ function getLineFollowSensor() {
 
 function setLed(value) {
   var newR = 0;var newG = 0;var newB = 0;
-  //console.log(value);
   if (value === 'black') {
     newR = 0;
     newG = 0;
@@ -229,7 +191,6 @@ function setLed(value) {
     newG = Math.floor(Math.random() * 255);
     newB = Math.floor(Math.random() * 255);
   }
-  //  device.write([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
   sendToRobot([0, 12, 0xff, 0x55, 0x09, 0x00, 0x02, 0x08, 0x07, 0x02, 0x00, newR, newG, newB]);
 }
 

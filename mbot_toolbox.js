@@ -30,7 +30,7 @@ goog.require('Blockly.Blocks');
 
 Blockly.Blocks.defaultToolbox = '<xml id="toolbox-categories" style="display: none">' +
     '<category name="Events" colour="#ffee00" secondaryColour="#ffcc00">' +
-        '<block type="event_whenflagclicked"></block>' +
+        '<block id="green" type="event_whenflagclicked"></block>' +
         '<block type="mbot_whendistanceclose"></block>' +
         // '<block type="event_whenbroadcastreceived">' +
         // '<value name="CHOICE">' +

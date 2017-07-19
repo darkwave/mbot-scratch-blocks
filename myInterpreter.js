@@ -125,7 +125,7 @@ function nextStep() {
       if (block) {
         block.setGlowBlock(false);
       }
-      setLed(0, 0, 0);
+      // setLed(0, 0, 0);
       setMotors(0,0);
     }
   } catch (e) {
