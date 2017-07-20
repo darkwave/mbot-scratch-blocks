@@ -62,7 +62,6 @@ Blockly.JavaScript['mbot_motorcounterclockwise'] = function(block) {
 };
 
 Blockly.JavaScript['mbot_motorstop'] = function(block) {
-    var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
     var code = "setMotors(0, 0);\n";
     return code;
 };
