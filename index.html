@@ -14,6 +14,7 @@
   <script src="acorn_interpreter.js"></script>
   <script src="myInterpreter.js"></script>
   <script src="mbot_toolbox.js"></script>
+  <script src="firmwareutility.js"></script>
 <style media="screen">
 #runBox {
   position: absolute;
@@ -41,7 +42,25 @@
   cursor: hand;
 }
 
+#utilityBox {
+  position: absolute;
+  bottom: 35px;
+  right: 170px;
+}
 
+#utilityBox button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+#utilityBox img {
+  width: auto;
+  height: 25px;
+}
 
   #errorBox {
     position: absolute;
@@ -77,6 +96,7 @@
   <div id="stopBox" onclick="stopInterpreter()"><img src="media/icons/control_stop.svg"></div>
   <div id="errorBox" onclick="alert('Verify dongle and robot!')"><img src="media/icons/event_whenflagclicked.svg"></div>
   <div id="connectivityBox"><img id="connectionStatus" src="media/connection_idle.png"></div>
+  <div id="utilityBox"><button id="firmwareBtn" class="utilityButton" onClick="uploadFirmware()"><img src="media/settings.png" alt="Reset Firmware"/></button></div>
 </body>
 
 <script src="hid_mbot.js"></script>

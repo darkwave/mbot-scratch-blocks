@@ -1,6 +1,6 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "dependencies": {
     "electron-debug": "^1.2.0",
     "node-hid": "^0.5.4",
-    "tween.js": "^16.3.5"
+    "avrgirl-arduino": "^2.2.4"
   },
   "build": {
     "appId": "com.codemotionkids.mbotjr",

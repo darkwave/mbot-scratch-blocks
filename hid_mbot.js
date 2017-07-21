@@ -114,7 +114,7 @@ function connectDongle() {
     });
 
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     //alert("Please attach mBot dongle and press OK\n");
     //connectDongle();
     //device = null;
