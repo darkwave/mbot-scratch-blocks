@@ -13,7 +13,6 @@
   <!-- https://developers.google.com/blockly/guides/app-integration/running-javascript#js_interpreter -->
   <script src="acorn_interpreter.js"></script>
   <script src="myInterpreter.js"></script>
-  <script src="mbot_toolbox.js"></script>
   <script src="firmwareutility.js"></script>
 <style media="screen">
 #runBox {
@@ -99,6 +98,120 @@
   <div id="utilityBox"><button id="firmwareBtn" class="utilityButton" onClick="uploadFirmware()"><img src="media/settings.png" alt="Reset Firmware"/></button></div>
 </body>
 
+<xml id="toolbox" style="display: none">
+  <category name="Events" colour="#ffee00" secondaryColour="#ffcc00">
+    <block id="green" type="event_whenflagclicked"></block>
+    <block type="mbot_whendistanceclose"></block>
+  </category>
+  <category name="Control" colour="#ffcc00" secondaryColour="#ff9900">
+    <block type="control_forever"></block>
+    <block type="control_repeat">
+      <value name="TIMES">
+        <shadow type="math_whole_number">
+          <field name="NUM">4</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="control_stop"></block>
+    <block type="control_restart"></block>
+    <block type="control_wait">
+      <value name="DURATION">
+        <shadow type="math_positive_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Looks" colour="#9966FF" secondaryColour="#855CD6">
+    <block type="mbot_setcolor">
+      <value name="CHOICE">
+        <shadow type="dropdown_mbot_setcolor">
+          <field name="CHOICE">mystery</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="mbot_nocolor"></block>
+  </category>
+  <category name="Motion" colour="#4C97FF" secondaryColour="#4280D7">
+    <block type="mbot_motorforward">
+      <value name="DURATION">
+        <shadow type="math_positive_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="mbot_motorbackward">
+      <value name="DURATION">
+        <shadow type="math_positive_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="mbot_motorclockwise">
+      <value name="DURATION">
+        <shadow type="math_positive_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="mbot_motorcounterclockwise">
+      <value name="DURATION">
+        <shadow type="math_positive_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="mbot_motorstop"></block>
+    <block type="mbot_motorspeed">
+      <value name="CHOICE">
+        <shadow type="dropdown_mbot_motorspeed">
+          <field name="CHOICE">fast</field>
+        </shadow>
+      </value>
+    </block>
+    <!--block type="mbot_whentilt">
+    <value name="CHOICE">
+    <shadow type="dropdown_mbot_whentilt">
+    <field name="CHOICE">forward</field>
+  </shadow>
+</value>
+</block-->
+</category>
+</xml>
+<xml id="toolbox-simple" style="display: none">
+  <block type="event_whenflagclicked"></block>
+  <block type="event_whenbroadcastreceived">
+    <value name="CHOICE">
+      <shadow type="dropdown_whenbroadcast">
+        <field name="CHOICE">blue</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="event_broadcast">
+    <value name="CHOICE">
+      <shadow type="dropdown_broadcast">
+        <field name="CHOICE">blue</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="control_forever"></block>
+  <block type="control_repeat">
+    <value name="TIMES">
+      <shadow type="math_whole_number">
+        <field name="NUM">4</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="control_stop"></block>
+  <block type="control_wait">
+    <value name="DURATION">
+      <shadow type="math_positive_number">
+        <field name="NUM">1</field>
+      </shadow>
+    </value>
+  </block>
+</xml>
+
 <script src="hid_mbot.js"></script>
 
 <script src="blocks_mbot.js"></script>
@@ -110,7 +223,7 @@ var workspace = Blockly.inject('blocklyDiv', {
   media: 'media/',
   readOnly: false,
   scrollbars: true,
-  toolbox: Blockly.Blocks.defaultToolbox,
+  toolbox: document.getElementById('toolbox'),
   trashcan: true,
   grid: {spacing: 16,
     length: 1,
@@ -136,6 +249,8 @@ var workspace = Blockly.inject('blocklyDiv', {
     dragShadowOpacity: 0.6
   }
 });
+
+/*
 
 var greenFlagID = "";
 var alreadyHasGreenFlag = false;
@@ -175,5 +290,6 @@ function workspaceChanged(primaryEvent) {
 }
 
 workspace.addChangeListener(workspaceChanged);
+*/
 </script>
 </html>

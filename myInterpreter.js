@@ -1,12 +1,56 @@
 var myInterpreter;
 var waitStep = 0;
 var glowingId = null;
+var exitInterpreter = false;
+var interpreterTimer = null;
+
+
+function stopInterpreter() {
+  exitInterpreter = true;
+}
+
+function resetTimeout() {
+  if (interpreterTimer == null)
+    return;
+
+  clearTimeout(interpreterTimer);
+  interpreterTimer = null;
+
+}
+
+function nextStep() {
+  try {
+    if (!exitInterpreter && myInterpreter.step()) {
+      resetTimeout();
+      interpreterTimer = window.setTimeout(nextStep, waitStep);
+
+      waitStep = 0;
+    } else {
+      exitInterpreter = false;
+      eventTriggered = false;
+      resetTimeout();
+      var block = workspace.getBlockById(glowingId);
+      if (block) {
+        block.setGlowBlock(false);
+      }
+
+      workspace.glowStack(currentlyGlowingStack, false);
+      currentlyGlowingStack = undefined;
+      setMotors(0,0);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+var currentlyGlowingStack = undefined;
 function highlightBlock(id) {
   // if (glowingId != null)
   //   workspace.glowBlock(glowingId, false);
   // glowingId = id;
   //workspace.glowBlock(id, true);
   var block = workspace.getBlockById(glowingId);
+
   if (block) {
     block.setGlowBlock(false);
   }
@@ -16,6 +60,17 @@ function highlightBlock(id) {
     block.setGlowBlock(true);
     glowingId = id;
   }
+
+  if (block.type == "event_whenflagclicked" || block.type == "mbot_whendistanceclose") {
+    if (id != currentlyGlowingStack) {
+      if (currentlyGlowingStack != undefined)
+        workspace.glowStack(currentlyGlowingStack, false);
+
+      workspace.glowStack(id, true);
+      currentlyGlowingStack = id;
+    }
+  }
+
 }
 
 function wait(ms) {
@@ -94,45 +149,4 @@ function initApi(interpreter, scope) {
   };
   interpreter.setProperty(scope, 'restart',
   interpreter.createNativeFunction(wrapper));
-}
-var exitInterpreter = false;
-function stopInterpreter() {
-  exitInterpreter = true;
-}
-var interpreterTimer = null;
-
-function resetTimeout() {
-  if (interpreterTimer == null)
-    return;
-
-  clearTimeout(interpreterTimer);
-  interpreterTimer = null;
-
-}
-
-function nextStep() {
-  try {
-    if (!exitInterpreter && myInterpreter.step()) {
-      resetTimeout();
-      interpreterTimer = window.setTimeout(nextStep, waitStep);
-
-      waitStep = 0;
-    } else {
-      exitInterpreter = false;
-      eventTriggered = false;
-      resetTimeout();
-      var block = workspace.getBlockById(glowingId);
-      if (block) {
-        block.setGlowBlock(false);
-      }
-      // setLed(0, 0, 0);
-      setMotors(0,0);
-    }
-  } catch (e) {
-    console.log(e);
-  } finally {
-
-  }
-
-
 }

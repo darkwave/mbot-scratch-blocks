@@ -1,5 +1,3 @@
-var currentlyGlowingStack = null;
-
 Blockly.JavaScript['event_whenflagclicked'] = function(block) {
   var code = "currentMotorsSpeed = 150;\n";
   return code;
@@ -101,51 +99,44 @@ Blockly.JavaScript['mbot_nocolor'] = function(block) {
 }
 
 var eventTriggered = false;
+
 function stepCode(highlighting, triggered) {
 
   if (eventTriggered && triggered)
-    return;
+  return;
 
-    eventTriggered = triggered;
+  eventTriggered = triggered;
 
   if (highlighting) {
     Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
     Blockly.JavaScript.addReservedWords('highlightBlock');
-  }
-  else
+  } else {
     Blockly.JavaScript.STATEMENT_PREFIX = null;
+  }
 
 
   var code = "";
   var distanceFunction = "";
-  for (i = 0; i < workspace.getTopBlocks().length; i++)
-  if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
-    code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
-  else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
-     distanceFunction = Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
 
-     if (distanceFunction.length > 0 && eventTriggered)
-     code = distanceFunction;
-     else if (distanceFunction.length == 0 && eventTriggered)
-     return;
-  //Blockly.JavaScript.workspaceToCode(workspace);workspace.getTopBlocks()[i].type === "mbot_whendistanceclose"
-  //console.log(code);
-  var intrepreterAvailable = false;
-  try {
-    // if (interpreterTimer != null)
-    //   clearTimeout(interpreterTimer);
-    resetTimeout();
-    myInterpreter = new Interpreter(code, initApi);
-    intrepreterAvailable = true;
-  } catch (e) {
-    console.log("You are using eval() function consider using Interpreter\nhttps://developers.google.com/blockly/guides/app-integration/running-javascript#js_interpreter");
-  } finally {
-    if (intrepreterAvailable) {
-      nextStep();
-    } else {
-      eval(code);
-    }
+  for (i = 0; i < workspace.getTopBlocks().length; i++) {
+    if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
+      code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
+    else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
+      distanceFunction += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
   }
+
+  if (distanceFunction.length > 0 && eventTriggered) {
+    code = distanceFunction;
+  } else if (distanceFunction.length == 0 && eventTriggered) {
+    return;
+  }
+
+
+  resetTimeout();
+  myInterpreter = new Interpreter(code, initApi);
+  intrepreterAvailable = true;
+  nextStep();
+
   workspace.highlightBlock(null);
 
 }
