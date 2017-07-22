@@ -1,6 +1,6 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
@@ -32,7 +32,9 @@
   "build": {
     "appId": "com.codemotionkids.mbotjr",
     "linux": {
-      "target": "deb"
+      "target": "deb",
+      "afterInstall": "after-install.tpl",
+      "category": "Education"
     },
     "win": {
       "target": "portable",
