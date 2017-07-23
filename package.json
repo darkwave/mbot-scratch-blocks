@@ -25,9 +25,10 @@
     "electron-rebuild": "latest"
   },
   "dependencies": {
+    "7zip-bin-win": "^2.1.0",
+    "avrgirl-arduino": "^2.2.4",
     "electron-debug": "^1.2.0",
-    "node-hid": "^0.5.4",
-    "avrgirl-arduino": "^2.2.4"
+    "node-hid": "^0.5.4"
   },
   "build": {
     "appId": "com.codemotionkids.mbotjr",

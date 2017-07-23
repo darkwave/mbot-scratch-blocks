@@ -44,6 +44,7 @@ function checkConnection() {
       connectDongle(dongleConnected);
 
 
+  //console.log(paused + " " + dongleConnected)
   window.setTimeout(checkConnection, 200);
 }
 
@@ -56,6 +57,7 @@ function startRobotConnection() {
 function updateSensors() {
   getLineFollowSensor();
   getDistanceSensor();
+  console.log("sensors...")
   setTimeout(updateSensors, 10);
 }
 
@@ -66,8 +68,9 @@ function readSensorsData(data) {
   if (data[3] == 0)
     return;
 
-  paused = false;
+    //console.log(data)
 
+  paused = false;
   var reading =  [data[5], data[6], data[7], data[8]];
 
   // Create a buffer
@@ -101,14 +104,19 @@ function readSensorsData(data) {
 
 function connectDongle(path) {
   try {
+
     device = new HID.HID(path);
     device.path = path;
+    //on windows we must write to device in order to "reanimate it"
+    paused = false;
+    getDistanceSensor();
+
     console.log(device.path);
 
     device.on("data", readSensorsData);
 
     device.on("error", function(error) {
-      //device = null;
+      device = null;
       console.log("Dongle unplugged?\n" + error)
     });
 
