@@ -65,12 +65,12 @@ function nextStep() {
 
       waitStep = 0;
     } else {
-      
+
       exitInterpreter = false;
       eventTriggered = false;
       resetTimeout();
-
-      if (workspace.getBlockById(glowingId)) {
+      var block = workspace.getBlockById(glowingId);
+      if (block) {
         block.setGlowBlock(false);
       }
       if (workspace.getBlockById(currentlyGlowingStack))
