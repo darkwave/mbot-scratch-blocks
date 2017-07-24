@@ -57,7 +57,7 @@ function startRobotConnection() {
 function updateSensors() {
   getLineFollowSensor();
   getDistanceSensor();
-  console.log("sensors...")
+  
   setTimeout(updateSensors, 10);
 }
 

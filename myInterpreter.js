@@ -33,9 +33,10 @@ function nextStep() {
       if (block) {
         block.setGlowBlock(false);
       }
+      if (workspace.getBlockById(currentlyGlowingStack))
+        workspace.glowStack(currentlyGlowingStack, false);
 
-      workspace.glowStack(currentlyGlowingStack, false);
-      currentlyGlowingStack = undefined;
+      currentlyGlowingStack = null;
       setMotors(0,0);
     }
   } catch (e) {
@@ -43,7 +44,7 @@ function nextStep() {
   }
 }
 
-var currentlyGlowingStack = undefined;
+var currentlyGlowingStack = null;
 function highlightBlock(id) {
   // if (glowingId != null)
   //   workspace.glowBlock(glowingId, false);
@@ -59,17 +60,20 @@ function highlightBlock(id) {
   if (block) {
     block.setGlowBlock(true);
     glowingId = id;
-  }
 
-  if (block.type == "event_whenflagclicked" || block.type == "mbot_whendistanceclose") {
-    if (id != currentlyGlowingStack) {
-      if (currentlyGlowingStack != undefined)
-        workspace.glowStack(currentlyGlowingStack, false);
+    if (block.type == "event_whenflagclicked" || block.type == "mbot_whendistanceclose") {
+      if (id != currentlyGlowingStack) {
+        if (currentlyGlowingStack != undefined)
+          workspace.glowStack(currentlyGlowingStack, false);
 
-      workspace.glowStack(id, true);
-      currentlyGlowingStack = id;
+        workspace.glowStack(id, true);
+        currentlyGlowingStack = id;
+      }
     }
+
   }
+
+
 
 }
 

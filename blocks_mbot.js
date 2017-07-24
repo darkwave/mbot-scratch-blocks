@@ -106,13 +106,13 @@ function stepCode(highlighting, triggered) {
   return;
 
   eventTriggered = triggered;
-
-  if (highlighting) {
-    Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
-    Blockly.JavaScript.addReservedWords('highlightBlock');
-  } else {
-    Blockly.JavaScript.STATEMENT_PREFIX = null;
-  }
+  //
+  // if (highlighting) {
+  Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+  Blockly.JavaScript.addReservedWords('highlightBlock');
+  // } else {
+  //   Blockly.JavaScript.STATEMENT_PREFIX = null;
+  // }
 
 
   var code = "";
@@ -125,16 +125,15 @@ function stepCode(highlighting, triggered) {
       distanceFunction += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
   }
 
-  if (distanceFunction.length > 0 && eventTriggered) {
+  if (eventTriggered && distanceFunction.length > 0) {
     code = distanceFunction;
-  } else if (distanceFunction.length == 0 && eventTriggered) {
-    return;
   }
 
 
-  resetTimeout();
+
+
   myInterpreter = new Interpreter(code, initApi);
-  intrepreterAvailable = true;
+  resetTimeout();
   nextStep();
 
   workspace.highlightBlock(null);
