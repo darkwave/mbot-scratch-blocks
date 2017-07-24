@@ -1,9 +1,48 @@
 var myInterpreter;
 var waitStep = 0;
 var glowingId = null;
+var currentlyGlowingStack = null;
 var exitInterpreter = false;
 var interpreterTimer = null;
 
+var eventTriggered = false;
+
+function stepCode(triggered) {
+
+  if (eventTriggered && triggered)
+  return;
+
+  eventTriggered = triggered;
+  //
+  // if (highlighting) {
+  Blockly.JavaScript.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+  Blockly.JavaScript.addReservedWords('highlightBlock');
+  // } else {
+  //   Blockly.JavaScript.STATEMENT_PREFIX = null;
+  // }
+
+
+  var code = "";
+  var distanceFunction = "";
+
+  for (i = 0; i < workspace.getTopBlocks().length; i++) {
+    if (workspace.getTopBlocks()[i].type === "event_whenflagclicked")
+      code += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
+    else if (workspace.getTopBlocks()[i].type === "mbot_whendistanceclose")
+      distanceFunction += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
+  }
+
+  if (eventTriggered) {
+    code = distanceFunction;
+  }
+
+  myInterpreter = new Interpreter(code, initApi);
+  resetTimeout();
+  nextStep();
+
+  workspace.highlightBlock(null);
+
+}
 
 function stopInterpreter() {
   exitInterpreter = true;
@@ -26,11 +65,12 @@ function nextStep() {
 
       waitStep = 0;
     } else {
+      
       exitInterpreter = false;
       eventTriggered = false;
       resetTimeout();
-      var block = workspace.getBlockById(glowingId);
-      if (block) {
+
+      if (workspace.getBlockById(glowingId)) {
         block.setGlowBlock(false);
       }
       if (workspace.getBlockById(currentlyGlowingStack))
@@ -44,12 +84,7 @@ function nextStep() {
   }
 }
 
-var currentlyGlowingStack = null;
 function highlightBlock(id) {
-  // if (glowingId != null)
-  //   workspace.glowBlock(glowingId, false);
-  // glowingId = id;
-  //workspace.glowBlock(id, true);
   var block = workspace.getBlockById(glowingId);
 
   if (block) {
@@ -70,11 +105,7 @@ function highlightBlock(id) {
         currentlyGlowingStack = id;
       }
     }
-
   }
-
-
-
 }
 
 function wait(ms) {
@@ -142,14 +173,14 @@ function initApi(interpreter, scope) {
   interpreter.setProperty(scope, 'setMotors',
   interpreter.createNativeFunction(wrapper));
   // Add an API function for the "stopInterpreter" block.
-  wrapper = function(l, r, d) {
+  wrapper = function() {
     return interpreter.createPrimitive(stopInterpreter());
   };
   interpreter.setProperty(scope, 'stopInterpreter',
   interpreter.createNativeFunction(wrapper));
-  // Add an API function for the "stopInterpreter" block.
-  wrapper = function(l, r, d) {
-    return interpreter.createPrimitive(stepCode(true, false));
+  // Add an API function for the "restart" block.
+  wrapper = function() {
+    return interpreter.createPrimitive(stepCode(false));
   };
   interpreter.setProperty(scope, 'restart',
   interpreter.createNativeFunction(wrapper));

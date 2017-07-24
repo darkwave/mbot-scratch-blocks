@@ -57,7 +57,7 @@ function startRobotConnection() {
 function updateSensors() {
   getLineFollowSensor();
   getDistanceSensor();
-  
+
   setTimeout(updateSensors, 10);
 }
 
@@ -96,7 +96,7 @@ function readSensorsData(data) {
     //Trigger short distance event
     console.log("short");
     //TODO remove interpreter control from here
-    stepCode(true, true);
+    stepCode(true);
   }
 
 }
