@@ -125,7 +125,7 @@ function stepCode(highlighting, triggered) {
       distanceFunction += Blockly.JavaScript.blockToCode(workspace.getTopBlocks()[i]);
   }
 
-  if (eventTriggered && distanceFunction.length > 0) {
+  if (eventTriggered) {
     code = distanceFunction;
   }
 
