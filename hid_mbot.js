@@ -1,6 +1,8 @@
 
 var HID = require('node-hid');
 var device;
+const DISTANCE_THRESHOLD = 25;
+
 
 //TODO put inside green flag code inizialization for this and other vars
 const defaultMotorsSpeed = 150;
@@ -55,7 +57,7 @@ function startRobotConnection() {
 }
 
 function updateSensors() {
-  getLineFollowSensor();
+  //getLineFollowSensor();
   getDistanceSensor();
 
   setTimeout(updateSensors, 10);
@@ -93,14 +95,19 @@ function readSensorsData(data) {
     lineFollower = num;
   }
   if (distance < 7) {
-    //Trigger short distance event
-    console.log("short");
-    //TODO remove interpreter control from here
+    distanceCounter++;
+  } else {
+    distanceCounter--;
+  }
+  if (distanceCounter > DISTANCE_THRESHOLD) {//Trigger short distance event
     stepCode(true);
+    distanceCounter = DISTANCE_THRESHOLD;
+  } else if (distanceCounter < 0) {
+    distanceCounter = 0;
   }
 
 }
-
+var distanceCounter = 0;
 
 function connectDongle(path) {
   try {
