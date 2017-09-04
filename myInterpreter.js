@@ -8,7 +8,7 @@ var interpreterTimer = null;
 var eventTriggered = false;
 
 function stepCode(triggered) {
-
+  exitInterpreter = false;
   if (eventTriggered && triggered)
   return;
 

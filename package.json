@@ -1,6 +1,6 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
