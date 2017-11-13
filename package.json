@@ -21,23 +21,26 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "electron": "latest",
-    "electron-builder": "latest",
+    "electron-builder": "^19.45.4",
     "electron-rebuild": "latest"
   },
   "dependencies": {
-    "avrgirl-arduino": "^2.2.4",
-    "electron-debug": "^1.2.0",
-    "node-hid": "^0.5.4"
+    "avrgirl-arduino": "latest",
+    "electron-debug": "latest",
+    "node-hid": "0.5.2"
   },
   "optionalDependencies": {
     "7zip-bin-win": "^2.1.0"
   },
   "build": {
     "appId": "com.codemotionkids.mbotjr",
+    "npmArgs": "--driver=hidraw",
     "linux": {
       "target": "deb",
-      "afterInstall": "after-install.tpl",
       "category": "Education"
+    },
+    "deb": {
+      "afterInstall": "after-install.tpl"
     },
     "win": {
       "target": "portable",

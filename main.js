@@ -4,7 +4,7 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
-require('electron-debug')({showDevTools: false});
+require('electron-debug')({showDevTools: false, enabled: true});
 
 const path = require('path')
 const url = require('url')
