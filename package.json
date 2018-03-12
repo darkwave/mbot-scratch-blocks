@@ -1,6 +1,6 @@
 {
   "name": "mbot-scratch-blocks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simplier mBot coding tool",
   "main": "main.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "author": "Massimo Avvisati <massimo.avvisati@codemotion.it> (https://github.com/darkwave/mbot-scratch-blocks)",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "latest",
+    "electron": "1.8.3",
     "electron-builder": "^19.45.4",
     "electron-rebuild": "latest"
   },
