@@ -10,7 +10,10 @@ Blockly.JavaScript['mbot_whendistanceclose'] = function(block) {
 };
 //var repeated = 0;
 
+
 Blockly.JavaScript['control_repeat'] = function(block) {
+      if (block.getChildren().length == 0)
+        return ""; //block is not ready
       var value = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
       var substack = Blockly.JavaScript.statementToCode(block, 'SUBSTACK');
       var code = 'for (var i = 0; i < ' + value + '; i++)'+"\n"+'{'+"\n\t"+substack+"\n"+'}'+"\n";
@@ -31,29 +34,39 @@ Blockly.JavaScript['control_stop'] = function(block) {
 };
 
 Blockly.JavaScript['control_wait'] = function(block) {
+  if (block.getChildren().length == 0)
+    return ""; //block is not ready
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   var code = "wait(" + duration + ");\n";return code;
 };
 
 Blockly.JavaScript['mbot_motorclockwise'] = function(block) {
+  if (block.getChildren().length == 0)
+    return ""; //block is not ready
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   var code = "setMotors(-1, 1);\nwait("+duration+");\nsetMotors(0, 0);\n";
   return code;
 };
 
 Blockly.JavaScript['mbot_motorforward'] = function(block) {
+  if (block.getChildren().length == 0)
+    return ""; //block is not ready
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   var code = "setMotors(-1, -1);\nwait("+duration+");\nsetMotors(0, 0);\n";
   return code;
 };
 
 Blockly.JavaScript['mbot_motorbackward'] = function(block) {
+  if (block.getChildren().length == 0)
+    return ""; //block is not ready
   var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
   var code = "setMotors(1, 1);\nwait("+duration+");\nsetMotors(0, 0);\n";
   return code;
 };
 
 Blockly.JavaScript['mbot_motorcounterclockwise'] = function(block) {
+    if (block.getChildren().length == 0)
+      return ""; //block is not ready
     var duration = parseFloat(block.getChildren()[0].getFieldValue('NUM'));
     var code = "setMotors(1, -1);\nwait("+duration+");\nsetMotors(0, 0);\n";
     return code;
@@ -65,6 +78,8 @@ Blockly.JavaScript['mbot_motorstop'] = function(block) {
 };
 
 Blockly.JavaScript['mbot_motorspeed'] = function(block) {
+  if (block.getChildren().length == 0)
+    return ""; //block is not ready
   var newSpeed = block.getChildren()[0].getFieldValue('CHOICE');
   var code = "setMotorsSpeed(\""+newSpeed+"\");\n";
   return code;
