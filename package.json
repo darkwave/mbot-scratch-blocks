@@ -20,14 +20,13 @@
   "author": "Massimo Avvisati <massimo.avvisati@codemotion.it> (https://github.com/darkwave/mbot-scratch-blocks)",
   "license": "GPL-3.0",
   "devDependencies": {
-    "electron": "1.8.3",
-    "electron-builder": "^19.45.4",
-    "electron-rebuild": "latest"
+    "electron": "2.0.4",
+    "electron-builder": "20.24.3",
+    "electron-rebuild": "1.8.1"
   },
   "dependencies": {
-    "avrgirl-arduino": "latest",
     "electron-debug": "latest",
-    "node-hid": "0.5.2"
+    "node-hid": "0.7.3"
   },
   "optionalDependencies": {
     "7zip-bin-win": "^2.1.0"
